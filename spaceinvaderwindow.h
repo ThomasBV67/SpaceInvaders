@@ -1,21 +1,11 @@
 #ifndef SPACEINVADERWINDOW_H
 #define SPACEINVADERWINDOW_H
 
-#include <QMainWindow>
-
-QT_BEGIN_NAMESPACE
-namespace Ui { class SpaceInvaderWindow; }
-QT_END_NAMESPACE
-
-class SpaceInvaderWindow : public QMainWindow
+class SpaceInvaderWindow
 {
-    Q_OBJECT
-
-public:
-    SpaceInvaderWindow(QWidget *parent = nullptr);
-    ~SpaceInvaderWindow();
-
-private:
-    Ui::SpaceInvaderWindow *ui;
+    public:
+        SpaceInvaderWindow();
+    private:
+        int y = 1;
 };
 #endif // SPACEINVADERWINDOW_H

@@ -1,0 +1,7 @@
+﻿  main.cpp
+C:\Users\thoma\Documents\QtProjects\SpaceInvaders\main.cpp(4,26): warning C4100: 'argv': unreferenced formal parameter
+C:\Users\thoma\Documents\QtProjects\SpaceInvaders\main.cpp(4,14): warning C4100: 'argc': unreferenced formal parameter
+  spaceinvaderboard.cpp
+  spaceinvaderwindow.cpp
+  Generating Code...
+  SpaceInvaders.vcxproj -> C:\Users\thoma\Documents\QtProjects\SpaceInvaders\debug\SpaceInvaders.exe
