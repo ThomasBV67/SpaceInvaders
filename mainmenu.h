@@ -4,14 +4,21 @@
 
 #include <QGraphicsScene>
 #include <QGraphicsRectItem>
+#include <QPushButton>S
+#include <QLabel>
+#include <QVBoxLayout>
+#include <QGroupBox>
+#include <QFont>
 
-class MainMenu : public QGraphicsScene
+class MainMenu : public QWidget
 {
 public:
 	MainMenu();
-
-	QGraphicsRectItem* goBtn;
-	QGraphicsRectItem* quitBtn;
+	QVBoxLayout* mainLayout;
+	QGroupBox* box;
+	QLabel* titleLabel;
+	QPushButton* goBtn;
+	QPushButton* quitBtn;
 private:
 	
 };
