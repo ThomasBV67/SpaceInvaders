@@ -1,16 +1,16 @@
-#ifndef SPACEINVADERWINDOW_H
-#define SPACEINVADERWINDOW_H
+#ifndef GAMEWINDOW_H
+#define GAMEWINDOW_H
 
 #include <QtWidgets>
 #include <QGraphicsView>
 #include <QGraphicsScene>
 #include "mainmenu.h"
 
-class SpaceInvaderWindow : public QGraphicsView
+class GameWindow : public QGraphicsView
 {
     public:
         // Constructors
-        SpaceInvaderWindow(QWidget* parent = NULL);
+        GameWindow(QWidget* parent = NULL);
 
         // Public methods
         void start();

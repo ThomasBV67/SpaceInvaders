@@ -2,6 +2,8 @@
 #ifndef MAINMENU_H
 #define MAINMENU_H
 
+#include "defines.h"
+
 #include <QGraphicsScene>
 #include <QGraphicsRectItem>
 #include <QPushButton>S
@@ -9,17 +11,21 @@
 #include <QVBoxLayout>
 #include <QGroupBox>
 #include <QFont>
+#include <QPalette>
 
 class MainMenu : public QWidget
 {
 public:
 	MainMenu();
+	void startGame(); // TO DO
+	void quitGame(); // TO DO
+	void selectButton(int btn);
+
+private:
 	QVBoxLayout* mainLayout;
-	QGroupBox* box;
 	QLabel* titleLabel;
 	QPushButton* goBtn;
 	QPushButton* quitBtn;
-private:
-	
+	int selectedBtn = START_BTN;
 };
 #endif
