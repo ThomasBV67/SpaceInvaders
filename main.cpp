@@ -2,6 +2,7 @@
 #include "mainmenu.h"
 #include "defines.h"
 #include "player.h"
+#include "inputthread.h"
 
 #include <QApplication>
 #include <QGraphicsScene>
@@ -37,9 +38,14 @@ int main(int argc, char *argv[])
 	//sWidget->addWidget(gameWindow); TO DO
 
 	// Fix the size of the window and show the mainMenu
-	sWidget->setCurrentWidget(view);
+	sWidget->setCurrentWidget(mainMenu);
 	sWidget->setFixedSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 	sWidget->show();
+
+	InputThread inputThread;
+	inputThread.start();
+
+
 
 	return a.exec();
 }

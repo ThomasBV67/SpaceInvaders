@@ -6,15 +6,16 @@
 
 #include <QGraphicsScene>
 #include <QGraphicsRectItem>
-#include <QPushButton>S
+#include <QPushButton>
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QGroupBox>
 #include <QFont>
 #include <QPalette>
 
-class MainMenu : public QWidget
+class MainMenu : public QObject, public QWidget
 {
+	Q_OBJECT
 public:
 	MainMenu(QWidget* parent = NULL);
 	void startGame(); // TO DO
@@ -27,5 +28,8 @@ private:
 	QPushButton* goBtn;
 	QPushButton* quitBtn;
 	int selectedBtn = START_BTN;
+
+public slots:
+
 };
 #endif
