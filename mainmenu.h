@@ -16,7 +16,7 @@
 class MainMenu : public QWidget
 {
 public:
-	MainMenu();
+	MainMenu(QWidget* parent = NULL);
 	void startGame(); // TO DO
 	void quitGame(); // TO DO
 	void selectButton(int btn);

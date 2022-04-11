@@ -1,6 +1,11 @@
 #include "player.h"
 
-void Player::keyPressEvent(QKeyEvent* event)
+Player::Player(QWidget* parent)
+{
+	setPixmap(QPixmap(":/images/player.png"));
+}
+
+/*void Player::keyPressEvent(QKeyEvent* event)
 {
 	qDebug() << event->key();
 	if (event->key() == Qt::Key_Left &&
@@ -9,8 +14,9 @@ void Player::keyPressEvent(QKeyEvent* event)
 		setPos(x() - 10, y());
 	}
 	else if (event->key() == Qt::Key_Right &&
-		x() <= scene()->width() - rect().width())
+		x() <= scene()->width())
 	{
 		setPos(x() + 10, y());
 	}
-}
+}*/
+

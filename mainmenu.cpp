@@ -1,6 +1,6 @@
 #include "mainmenu.h"
 
-MainMenu::MainMenu()
+MainMenu::MainMenu(QWidget* parent)
 {
 	// create a font object to apply a specific style to the text / buttons
 	QFont font;
