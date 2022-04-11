@@ -13,9 +13,8 @@
 #include <QFont>
 #include <QPalette>
 
-class MainMenu : public QObject, public QWidget
+class MainMenu : public QWidget
 {
-	Q_OBJECT
 public:
 	MainMenu(QWidget* parent = NULL);
 	void startGame(); // TO DO
@@ -28,8 +27,5 @@ private:
 	QPushButton* goBtn;
 	QPushButton* quitBtn;
 	int selectedBtn = START_BTN;
-
-public slots:
-
 };
 #endif

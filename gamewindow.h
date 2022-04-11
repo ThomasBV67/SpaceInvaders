@@ -16,7 +16,7 @@ class GameWindow : public QGraphicsView
         void start();
 
         // Public attributes
-        MainMenu* mainMenu;
+        QGraphicsScene* gameScene;
 
     private:
 };

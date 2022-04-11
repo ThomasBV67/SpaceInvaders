@@ -15,9 +15,9 @@ GameWindow* game;
 
 int main(int argc, char *argv[])
 {
+	bool window = 0;
 	//Init app
 	QApplication a(argc, argv);
-		
 	// setup a stacked widget to allow different pages
 	QStackedWidget* sWidget = new QStackedWidget();
 
@@ -29,6 +29,7 @@ int main(int argc, char *argv[])
 	Player* player = new Player();
 	QGraphicsScene* scene = new QGraphicsScene();
 	scene->addItem(player);
+
 	QGraphicsView* view = new QGraphicsView(scene);
 
 	// adding all pages to the stacked widget
@@ -44,7 +45,6 @@ int main(int argc, char *argv[])
 
 	InputThread inputThread;
 	inputThread.start();
-
 
 
 	return a.exec();
