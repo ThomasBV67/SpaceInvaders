@@ -17,4 +17,13 @@
 #define START_BTN	0
 #define QUIT_BTN	1
 
+#define RIGHT	0
+#define LEFT	1
+#define DOWN	2
+
+#define X_RIGHT_LIMIT	924
+#define X_LEFT_LIMIT	100
+
+#define ENEMY_MOVE_INCREMENT	10
+
 #endif	

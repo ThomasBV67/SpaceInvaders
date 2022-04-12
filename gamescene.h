@@ -14,11 +14,16 @@ class GameScene : public QGraphicsScene
 public:
     // public functions
     explicit GameScene(QObject* parent = nullptr);
-    void generateEnemies(int rows, int cols); // TO DO
+    void generateEnemies(int rows, int cols); 
+    void moveAliens();
 
     // public attributes
     QList<Enemy*> enemyList;
+    Enemy* rightMostAlien;
+    Enemy* leftMostAlien;
+    int moveDirection = RIGHT;
 
+public slots:
 
 
 signals:

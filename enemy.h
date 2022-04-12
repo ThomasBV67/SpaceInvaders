@@ -8,6 +8,12 @@
 #include <QGraphicsScene>
 #include <QObject>
 
+struct GridPosition
+{
+	int x;
+	int y;
+};
+
 class Enemy : public QGraphicsPixmapItem
 {
 public:
@@ -18,10 +24,6 @@ private:
 
 };
 
-struct GridPosition
-{
-	int x;
-	int y;
-};
+
 
 #endif	

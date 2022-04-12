@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
 	// init all pages
 	MainMenu* mainMenu = new MainMenu();
 	//PauseMenu* pauseMenu = new PauseMenu(); TO DO
-	//GameWindow* gameWindow = new GameWindow(); TO DO
+	GameWindow* gameWindow = new GameWindow(); 
 
 	Player* player = new Player();
 	//Enemy* enemy = new Enemy();
@@ -34,23 +34,19 @@ int main(int argc, char *argv[])
 	QGraphicsScene* scene = new QGraphicsScene();
 	GameScene* sceneTest = new GameScene();
 
-	sceneTest->generateEnemies(20, 20);
+	sceneTest->generateEnemies(4, 10);
 
 	scene->addItem(player);
-	//scene->addItem(enemy);
 
-	//enemy->setX(100);
-
-	QGraphicsView* view = new QGraphicsView(sceneTest);
+	gameWindow->setScene(sceneTest);
 
 	// adding all pages to the stacked widget
 	sWidget->addWidget(mainMenu);
-	sWidget->addWidget(view);
+	sWidget->addWidget(gameWindow);
 	//sWidget->addWidget(pauseMenu); TO DO
-	//sWidget->addWidget(gameWindow); TO DO
 
 	// Fix the size of the window and show the mainMenu
-	sWidget->setCurrentWidget(view);
+	sWidget->setCurrentWidget(gameWindow);
 	sWidget->setFixedSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 	sWidget->show();
 

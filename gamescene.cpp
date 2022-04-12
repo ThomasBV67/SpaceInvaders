@@ -15,7 +15,7 @@ void GameScene::generateEnemies(int rows, int cols)
     {
         for (int j = 0; j < cols; j++)
         {
-            divX = (WINDOW_WIDTH - (BORDER_WIDTH_SIDE * 2) - INVADER_WIDTH) / cols;
+            divX = (WINDOW_WIDTH - (BORDER_WIDTH_SIDE * 2)) / cols;
             tempX = BORDER_WIDTH_SIDE + j * divX;
 
             divY = (WINDOW_HEIGHT - (BORDER_WIDTH_TOP * 2)) / rows;
@@ -25,5 +25,58 @@ void GameScene::generateEnemies(int rows, int cols)
             enemyList.append(tempEnemy);
             addItem(tempEnemy);
         }
+    }
+    leftMostAlien = enemyList[0];
+    rightMostAlien = enemyList[cols];
+
+}
+
+void GameScene::moveAliens()
+{
+    int tempX, tempY;
+
+    if (rightMostAlien->x() + ENEMY_MOVE_INCREMENT > X_RIGHT_LIMIT)
+    {
+        if (moveDirection == RIGHT)
+        {
+            moveDirection = DOWN;
+        }
+        else if (moveDirection == DOWN)
+        {
+            moveDirection = LEFT;
+        }
+    }
+    else if (leftMostAlien->x() - ENEMY_MOVE_INCREMENT < X_LEFT_LIMIT)
+    {
+        if (moveDirection == LEFT)
+        {
+            moveDirection = DOWN;
+        }
+        else if (moveDirection == DOWN)
+        {
+            moveDirection = RIGHT;
+        }
+    }
+
+    for(int i = 0; i < enemyList.length(); i++)
+    {
+        tempX = enemyList[i]->x();
+        tempY = enemyList[i]->y();
+
+        if (moveDirection == RIGHT)
+        {
+            tempX += ENEMY_MOVE_INCREMENT;
+        }
+        else if (moveDirection == LEFT)
+        {
+            tempX -= ENEMY_MOVE_INCREMENT;
+        }
+        else if (moveDirection == DOWN)
+        {
+            tempY += ENEMY_MOVE_INCREMENT;
+        }
+
+        enemyList[i]->setX(tempX);
+        enemyList[i]->setY(tempY);
     }
 }
