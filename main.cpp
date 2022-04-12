@@ -4,6 +4,7 @@
 #include "player.h"
 #include "inputthread.h"
 #include "enemy.h"
+#include "gamescene.h"
 
 #include <QApplication>
 #include <QGraphicsScene>
@@ -28,16 +29,19 @@ int main(int argc, char *argv[])
 	//GameWindow* gameWindow = new GameWindow(); TO DO
 
 	Player* player = new Player();
-	Enemy* enemy = new Enemy();
+	//Enemy* enemy = new Enemy();
 
 	QGraphicsScene* scene = new QGraphicsScene();
+	GameScene* sceneTest = new GameScene();
+
+	sceneTest->generateEnemies(20, 20);
 
 	scene->addItem(player);
-	scene->addItem(enemy);
+	//scene->addItem(enemy);
 
-	enemy->setX(100);
+	//enemy->setX(100);
 
-	QGraphicsView* view = new QGraphicsView(scene);
+	QGraphicsView* view = new QGraphicsView(sceneTest);
 
 	// adding all pages to the stacked widget
 	sWidget->addWidget(mainMenu);

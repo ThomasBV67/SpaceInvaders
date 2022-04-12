@@ -11,10 +11,17 @@
 class Enemy : public QGraphicsPixmapItem
 {
 public:
-	Enemy(QWidget* parent = NULL);
+	Enemy(int coorX, int coorY, int gridX, int gridY, QWidget* parent = NULL);
 	//void keyPressEvent(QKeyEvent* event);
+	GridPosition gridPosition;
 private:
 
+};
+
+struct GridPosition
+{
+	int x;
+	int y;
 };
 
 #endif	
