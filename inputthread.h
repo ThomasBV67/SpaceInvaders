@@ -12,6 +12,7 @@ class InputThread : public QThread
 public:
 	InputThread();
 	void run();
+	bool exit = false;
 
 private:
 

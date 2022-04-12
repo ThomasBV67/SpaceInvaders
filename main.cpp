@@ -3,6 +3,7 @@
 #include "defines.h"
 #include "player.h"
 #include "inputthread.h"
+#include "enemy.h"
 
 #include <QApplication>
 #include <QGraphicsScene>
@@ -27,8 +28,14 @@ int main(int argc, char *argv[])
 	//GameWindow* gameWindow = new GameWindow(); TO DO
 
 	Player* player = new Player();
+	Enemy* enemy = new Enemy();
+
 	QGraphicsScene* scene = new QGraphicsScene();
+
 	scene->addItem(player);
+	scene->addItem(enemy);
+
+	enemy->setX(100);
 
 	QGraphicsView* view = new QGraphicsView(scene);
 
@@ -39,13 +46,12 @@ int main(int argc, char *argv[])
 	//sWidget->addWidget(gameWindow); TO DO
 
 	// Fix the size of the window and show the mainMenu
-	sWidget->setCurrentWidget(mainMenu);
+	sWidget->setCurrentWidget(view);
 	sWidget->setFixedSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 	sWidget->show();
 
 	InputThread inputThread;
 	inputThread.start();
-
 
 	return a.exec();
 }

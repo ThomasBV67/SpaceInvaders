@@ -9,7 +9,7 @@ void InputThread::run()
 {
 	int i = 0;
 
-	while (1)
+	while (!exit)
 	{
 		qDebug() << i;
 		i++;
