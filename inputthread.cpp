@@ -5,14 +5,14 @@ InputThread::InputThread()
 
 }
 
-void InputThread::run()
+void InputThread::process()
 {
 	int i = 0;
-
-	while (!exit)
+	
+	while(1)
 	{
-		qDebug() << i;
-		i++;
-		sleep(1);
+		emit moveAliens();
+		_sleep(1000);
 	}
+	emit finished();
 }

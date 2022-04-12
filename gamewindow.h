@@ -4,19 +4,26 @@
 #include <QtWidgets>
 #include <QGraphicsView>
 #include <QGraphicsScene>
+#include <QtCore>
+
 #include "mainmenu.h"
+#include "gamescene.h"
+#include "inputthread.h"
+
 
 class GameWindow : public QGraphicsView
 {
     public:
         // Constructors
         GameWindow(QWidget* parent = NULL);
-
+        ~GameWindow();
         // Public methods
         void start();
 
         // Public attributes
-        QGraphicsScene* gameScene;
+        GameScene* gameScene;
+        InputThread* inputThread;
+        QThread* threadObj;
 
     private:
 };

@@ -24,10 +24,10 @@ public:
     int moveDirection = RIGHT;
 
 public slots:
-
+    void eventTimeToMove();
 
 signals:
-
+    //void timeToMove();
 };
 
 #endif // GAMESCENE_H

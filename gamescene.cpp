@@ -4,9 +4,10 @@ GameScene::GameScene(QObject* parent)
     : QGraphicsScene(parent)
 {
     setSceneRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+    //connect(this, SIGNAL(timeToMove()), SLOT(eventTimeToMove()));
 }
 
-void GameScene::generateEnemies(int rows, int cols)
+void GameScene::generateEnemies(int cols, int rows)
 {
     Enemy* tempEnemy;
     int tempX, tempY, divX, divY;
@@ -27,7 +28,7 @@ void GameScene::generateEnemies(int rows, int cols)
         }
     }
     leftMostAlien = enemyList[0];
-    rightMostAlien = enemyList[cols];
+    rightMostAlien = enemyList[cols-1];
 
 }
 
@@ -80,3 +81,9 @@ void GameScene::moveAliens()
         enemyList[i]->setY(tempY);
     }
 }
+
+void GameScene::eventTimeToMove()
+{
+    moveAliens();
+}
+

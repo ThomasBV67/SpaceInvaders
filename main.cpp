@@ -31,14 +31,9 @@ int main(int argc, char *argv[])
 	Player* player = new Player();
 	//Enemy* enemy = new Enemy();
 
-	QGraphicsScene* scene = new QGraphicsScene();
 	GameScene* sceneTest = new GameScene();
 
-	sceneTest->generateEnemies(4, 10);
-
-	scene->addItem(player);
-
-	gameWindow->setScene(sceneTest);
+	gameWindow->gameScene->generateEnemies(10, 4);
 
 	// adding all pages to the stacked widget
 	sWidget->addWidget(mainMenu);
@@ -49,9 +44,6 @@ int main(int argc, char *argv[])
 	sWidget->setCurrentWidget(gameWindow);
 	sWidget->setFixedSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 	sWidget->show();
-
-	InputThread inputThread;
-	inputThread.start();
 
 	return a.exec();
 }

@@ -3,16 +3,25 @@
 #define INPUTTHREAD_H
 
 #include "defines.h"
+#include "gamescene.h"
 
 #include <QtCore>
 #include <QDebug>
 
-class InputThread : public QThread
+class InputThread : public QObject
 {
+    Q_OBJECT
 public:
 	InputThread();
-	void run();
-	bool exit = false;
+    ~InputThread() {};
+
+public slots:
+    void process();
+
+signals:
+    void finished();
+    void moveAliens();
+    void error(QString err);
 
 private:
 
