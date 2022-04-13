@@ -4,7 +4,12 @@ GameScene::GameScene(QObject* parent)
     : QGraphicsScene(parent)
 {
     setSceneRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-    //connect(this, SIGNAL(timeToMove()), SLOT(eventTimeToMove()));
+    player1 = new Player(this);
+    gameRect = new QGraphicsRectItem(BORDER_WIDTH_SIDE, BORDER_WIDTH_TOP, WINDOW_WIDTH - BORDER_WIDTH_SIDE, WINDOW_HEIGHT - 2 * BORDER_WIDTH_TOP);
+    player1->setGameRect(gameRect);
+    gameRect->setZValue(10);
+    addItem(gameRect);
+    addItem(player1);
 }
 
 void GameScene::generateEnemies(int cols, int rows)
@@ -87,3 +92,63 @@ void GameScene::eventTimeToMove()
     moveAliens();
 }
 
+void GameScene::makePlayerShot()
+{
+    if (playerBulletsList.size() < 3) {
+        playerBulletsList.append(player1->shoot());
+    }
+
+
+}
+
+void GameScene::keyPressEvent(QKeyEvent* keyEvent)
+{
+    if (keyEvent->key() == Qt::Key_Space) {
+        makePlayerShot();
+    }
+    if (keyEvent->key() == Qt::Key_Left) {
+        player1->speed -= 1;
+    }
+    if (keyEvent->key() == Qt::Key_Right) {
+        player1->speed += 1;
+    }
+    if (keyEvent->key() == Qt::Key_P) {
+        collision(playerBulletsList[0]);
+    }
+}
+
+void GameScene::collision(Bullet* item)
+{
+    QList<QGraphicsItem*>list = collidingItems(item, Qt::IntersectsItemShape);
+    if (list.isEmpty()) {
+        killItem(item);
+    }
+    if (list.size() == 2) {
+        int type = list[1]->type();
+        switch (type) {
+        case BULLET_TYPE:
+            killItem(item);
+            killItem(list[1]);
+            break;
+        case INVADER_TYPE:
+            killItem(item);
+            killItem(list[1]);
+            break;
+        case PLAYER_TYPE:
+            killItem(item);
+            //player1->hit(); TO DO
+        default:
+            break;
+        }
+    }
+}
+
+void GameScene::collisionAll()
+{
+    for (int i = 0; i < playerBulletsList.size(); i++) {
+        collision(playerBulletsList[i]);
+    }
+    for (int i = 0; i < enemyBulletsList.size(); i++) {
+        collision(enemyBulletsList[i]);
+    }
+}
