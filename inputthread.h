@@ -17,6 +17,7 @@ public:
 
 public slots:
     void process();
+    void updateGameSpeed() {};
 
 signals:
     void finished();

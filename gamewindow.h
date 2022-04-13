@@ -9,7 +9,7 @@
 #include "mainmenu.h"
 #include "gamescene.h"
 #include "inputthread.h"
-
+#include "gamespeedthread.h"
 
 class GameWindow : public QGraphicsView
 {
@@ -17,13 +17,16 @@ class GameWindow : public QGraphicsView
         // Constructors
         GameWindow(QWidget* parent = NULL);
         ~GameWindow();
+
         // Public methods
         void start();
 
         // Public attributes
         GameScene* gameScene;
         InputThread* inputThread;
-        QThread* threadObj;
+        GameSpeedThread* gameThread;
+        QThread* threadInputs;
+        QThread* threadLogic;
 
     private:
 };

@@ -24,6 +24,7 @@
 #define X_RIGHT_LIMIT	924
 #define X_LEFT_LIMIT	100
 
+
 #define ENEMY_MOVE_INCREMENT	10
 
 #endif	

@@ -2,32 +2,59 @@
 
 GameWindow::GameWindow(QWidget* parent)
 {
+	// force size of game window
 	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-	setFixedSize(WINDOW_WIDTH, 768);
+	setFixedSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 
+	// init the scene
 	gameScene = new GameScene();
+	
+	// init the QObjets for the threads
 	inputThread = new InputThread();
-	threadObj = new QThread();
+	gameThread = new GameSpeedThread();
 
-	inputThread->moveToThread(threadObj);
-	connect(inputThread, SIGNAL(error(QString)), this, SLOT(errorString(QString)));
-	connect(threadObj, SIGNAL(started()), inputThread, SLOT(process()));
-	connect(inputThread, SIGNAL(finished()), threadObj, SLOT(quit()));
+	// init the threads
+	threadInputs = new QThread();
+	threadLogic = new QThread();
+
+	// link the objects to their threads
+	inputThread->moveToThread(threadInputs);
+	gameThread->moveToThread(threadLogic);
+
+	// base connects for inputs
+	connect(threadInputs, SIGNAL(started()), inputThread, SLOT(process()));
+	connect(inputThread, SIGNAL(finished()), threadInputs, SLOT(quit()));
 	connect(inputThread, SIGNAL(finished()), inputThread, SLOT(deleteLater()));
-	connect(inputThread, SIGNAL(moveAliens()), gameScene, SLOT(eventTimeToMove()));
-	connect(threadObj, SIGNAL(finished()), threadObj, SLOT(deleteLater()));
+	connect(threadInputs, SIGNAL(finished()), threadInputs, SLOT(deleteLater()));
 
-	threadObj->start();
+	// base connects for game logic
+	connect(threadLogic, SIGNAL(started()), gameThread, SLOT(process()));
+	connect(gameThread, SIGNAL(finished()), threadLogic, SLOT(quit()));
+	connect(gameThread, SIGNAL(finished()), gameThread, SLOT(deleteLater()));
+	connect(threadLogic, SIGNAL(finished()), threadLogic, SLOT(deleteLater()));
 
+	// additionnal connects for inputs
+
+	// additionnal connects for game logic
+	connect(gameThread, SIGNAL(moveAliens()), gameScene, SLOT(eventTimeToMove()));
+
+	// starting threads
+	threadInputs->start();
+	threadLogic->start();
+
+	// show scene
 	setScene(gameScene);
 	show();
 }
 
 GameWindow::~GameWindow()
 {
+	// delete all dynamic objects
 	delete inputThread;
-	delete threadObj;
+	delete gameThread;
+	delete threadInputs;
+	delete threadLogic;
 	delete gameScene;
 }
 

@@ -16,10 +16,10 @@ void GameScene::generateEnemies(int cols, int rows)
     {
         for (int j = 0; j < cols; j++)
         {
-            divX = (WINDOW_WIDTH - (BORDER_WIDTH_SIDE * 2)) / cols;
+            divX = (WINDOW_WIDTH - (BORDER_WIDTH_SIDE * 2)) / (cols+1);
             tempX = BORDER_WIDTH_SIDE + j * divX;
 
-            divY = (WINDOW_HEIGHT - (BORDER_WIDTH_TOP * 2)) / rows;
+            divY = 50;
             tempY = BORDER_WIDTH_TOP + i * divY;
 
             tempEnemy = new Enemy(tempX,tempY,j,i);
@@ -36,7 +36,7 @@ void GameScene::moveAliens()
 {
     int tempX, tempY;
 
-    if (rightMostAlien->x() + ENEMY_MOVE_INCREMENT > X_RIGHT_LIMIT)
+    if (rightMostAlien->x() + ENEMY_MOVE_INCREMENT + INVADER_WIDTH > X_RIGHT_LIMIT)
     {
         if (moveDirection == RIGHT)
         {
