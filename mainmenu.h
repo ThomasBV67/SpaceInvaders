@@ -13,8 +13,9 @@
 #include <QFont>
 #include <QPalette>
 
-class MainMenu : public QWidget
+class MainMenu : public QWidget, public QObject
 {
+	Q_OBJECT
 public:
 	MainMenu(QWidget* parent = NULL);
 	void startGame(); // TO DO
@@ -23,7 +24,6 @@ public:
 
 private:
 	QVBoxLayout* mainLayout;
-	QLabel* titleLabel;
 	QPushButton* goBtn;
 	QPushButton* quitBtn;
 	int selectedBtn = START_BTN;

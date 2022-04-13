@@ -7,6 +7,8 @@ MainMenu::MainMenu(QWidget* parent)
 	font.setPixelSize(40);
 	font.setWeight(QFont::Bold);
 
+	setFixedSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+
 	// init of the start button
 	goBtn = new QPushButton();
 	goBtn->setFixedSize(300, 100);
@@ -19,20 +21,12 @@ MainMenu::MainMenu(QWidget* parent)
 	quitBtn->setText("Quit");
 	quitBtn->setFont(font);
 
-	// init of the title label
-	titleLabel = new QLabel();
-	titleLabel->setText("Space Invaders");
-	titleLabel->setFixedSize(300, 100);
-	titleLabel->setFont(font);
-	titleLabel->setAlignment(Qt::AlignCenter);
-
 	// create a spacer objet to space the layout
 	QLabel* spacer = new QLabel();
 	spacer->setFixedSize(300, 50);
 
 	// setup the layout
 	mainLayout = new QVBoxLayout();
-	mainLayout->addWidget(titleLabel);
 	mainLayout->addWidget(spacer);
 	mainLayout->addWidget(spacer);
 	mainLayout->addWidget(goBtn);
@@ -43,7 +37,16 @@ MainMenu::MainMenu(QWidget* parent)
 	// apply the layout
 	setLayout(mainLayout);
 
-	selectButton(START_BTN);
+	setAutoFillBackground(true);
+
+	QPixmap backgrnd(":/images/backgroundMainMenu.png");
+	backgrnd = backgrnd.scaled(this->size(), Qt::IgnoreAspectRatio);
+
+	QPalette palette;
+	palette.setBrush(backgroundRole(),QBrush(backgrnd));
+	this->setPalette(palette);
+
+	selectButton(QUIT_BTN);
 }
 
 void MainMenu::selectButton(int btn)

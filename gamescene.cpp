@@ -90,6 +90,7 @@ void GameScene::moveAliens()
 void GameScene::eventTimeToMove()
 {
     moveAliens();
+    collisionAll();
 }
 
 void GameScene::makePlayerShot()
@@ -103,6 +104,8 @@ void GameScene::makePlayerShot()
 
 void GameScene::keyPressEvent(QKeyEvent* keyEvent)
 {
+    qDebug() << "yes";
+
     if (keyEvent->key() == Qt::Key_Space) {
         makePlayerShot();
     }
