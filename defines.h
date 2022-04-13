@@ -33,6 +33,6 @@
 #define X_RIGHT_LIMIT	1024
 #define X_LEFT_LIMIT	100
 
-#define ENEMY_MOVE_INCREMENT	10
+#define ENEMY_MOVE_INCREMENT	1
 
 #endif	

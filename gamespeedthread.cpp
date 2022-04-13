@@ -4,7 +4,7 @@ void GameSpeedThread::process()
 {
 	while (1)
 	{
-		emit moveAliens();
+		emit updateGameLogic();
 		_sleep(gameSpeed);
 	}
 	emit finished();

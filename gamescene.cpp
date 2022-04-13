@@ -90,6 +90,7 @@ void GameScene::moveAliens()
 void GameScene::eventTimeToMove()
 {
     moveAliens();
+    advance();
     collisionAll();
 }
 
@@ -104,7 +105,7 @@ void GameScene::makePlayerShot()
 
 void GameScene::keyPressEvent(QKeyEvent* keyEvent)
 {
-    qDebug() << "yes";
+    
 
     if (keyEvent->key() == Qt::Key_Space) {
         makePlayerShot();
@@ -154,4 +155,10 @@ void GameScene::collisionAll()
     for (int i = 0; i < enemyBulletsList.size(); i++) {
         collision(enemyBulletsList[i]);
     }
+}
+
+void GameScene::eventTimePlayer()
+{
+    qDebug() << "yes";
+    player1->customAdvance();
 }

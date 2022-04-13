@@ -23,8 +23,9 @@ public slots:
 signals:
     void finished();
     void moveAliens();
+    void updateGameLogic();
 
 private:
-    int gameSpeed=1000;
+    int gameSpeed=100;
 };
 #endif

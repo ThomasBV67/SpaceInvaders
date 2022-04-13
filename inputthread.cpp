@@ -9,10 +9,10 @@ void InputThread::process()
 {
 	int i = 0;
 	
-	/*while (1)
+	while (1)
 	{
-		emit moveAliens();
-		_sleep(1000);
-	}*/
+		emit movePlayer();
+		_sleep(33);
+	}
 	emit finished();
 }

@@ -40,6 +40,7 @@ public:
 
 public slots:
     void eventTimeToMove();
+    void eventTimePlayer();
 
 signals:
     //void timeToMove();

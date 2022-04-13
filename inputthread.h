@@ -21,7 +21,7 @@ public slots:
 
 signals:
     void finished();
-    void moveAliens();
+    void movePlayer();
     void error(QString err);
 
 private:

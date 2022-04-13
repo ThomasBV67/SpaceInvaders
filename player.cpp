@@ -12,9 +12,7 @@ Player::Player(QGraphicsScene* inparent)
 void Player::updatePlayer() {
 	moveBy(speed, 0);
 }
-void Player::advance(int step) {
-	if (!step)
-		return;
+void Player::customAdvance() {
 	qreal temp_X = x() + speed;
 
 	if (temp_X <= X_LEFT_LIMIT) {

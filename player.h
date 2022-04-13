@@ -26,8 +26,7 @@ public:
 	void setGameRect(QGraphicsRectItem* inGameRect);
 	Bullet* shoot();
 	QPointF lastpos;
-protected:
-	void advance(int step) override;
+	void customAdvance();
 private:
 	QGraphicsRectItem* gameRect;
 	QGraphicsScene* parent;
