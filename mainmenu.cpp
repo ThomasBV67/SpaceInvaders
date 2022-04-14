@@ -25,7 +25,20 @@ MainMenu::MainMenu(QWidget* parent)
 	QLabel* spacer = new QLabel();
 	spacer->setFixedSize(300, 50);
 
-	// setup the layout
+	// Add green accents to the start button
+	QPalette pal = goBtn->palette();
+	pal.setColor(QPalette::Button, QColor(Qt::darkGreen));
+	pal.setColor(QPalette::ButtonText, QColor(Qt::darkGreen));
+	goBtn->setAutoFillBackground(true);
+	goBtn->setPalette(pal);
+
+	// Add red accents to the quit button
+	pal.setColor(QPalette::Button, QColor(Qt::red));
+	pal.setColor(QPalette::ButtonText, QColor(Qt::red));
+	quitBtn->setAutoFillBackground(true);
+	quitBtn->setPalette(pal);
+
+	// Setup the layout
 	mainLayout = new QVBoxLayout();
 	mainLayout->addWidget(spacer);
 	mainLayout->addWidget(spacer);
@@ -37,18 +50,20 @@ MainMenu::MainMenu(QWidget* parent)
 	// apply the layout
 	setLayout(mainLayout);
 
+	// set the background image
 	setAutoFillBackground(true);
-
 	QPixmap backgrnd(":/images/backgroundMainMenu.png");
 	backgrnd = backgrnd.scaled(this->size(), Qt::IgnoreAspectRatio);
-
 	QPalette palette;
 	palette.setBrush(backgroundRole(),QBrush(backgrnd));
 	this->setPalette(palette);
-
-	selectButton(QUIT_BTN);
 }
 
+/// <summary>
+/// This function changes the selected button, will be used when the menus can be controlled
+/// using the controller designed by the team. 
+/// </summary>
+/// <param name="btn"></param>
 void MainMenu::selectButton(int btn)
 {
 	if (btn == START_BTN)

@@ -9,6 +9,7 @@
 #include <QgraphicsRectItem>
 #include <QGraphicsScene>
 #include <QList>
+#include <QPalette>
 
 class GameScene : public QGraphicsScene
 {
@@ -35,15 +36,19 @@ public:
     int moveDirection = RIGHT;
     Player* player1;
     QGraphicsRectItem* gameRect;
+    bool paused = true;
     
     
 
 public slots:
     void eventTimeToMove();
     void eventTimePlayer();
+    void eventStart();
+    void eventResume();
+    void eventPause();
 
 signals:
-    //void timeToMove();
+    void pause();
 };
 
 template<>

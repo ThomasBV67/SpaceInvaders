@@ -34,20 +34,18 @@ GameWindow::GameWindow(QWidget* parent)
 	connect(gameThread, SIGNAL(finished()), gameThread, SLOT(deleteLater()));
 	connect(threadLogic, SIGNAL(finished()), threadLogic, SLOT(deleteLater()));
 	connect(gameThread, SIGNAL(updateGameLogic()), gameScene, SLOT(eventTimeToMove())); // moves enemy, bullets, and check for collision
-	//connect(inputThread, SIGNAL(finished()), gameScene, SLOT(advance()));
-	// additionnal connects for inputs
 
 	// additionnal connects for game logic
-	
 	connect(inputThread, SIGNAL(movePlayer()), gameScene, SLOT(eventTimePlayer()));
+
 	// starting threads
 	threadInputs->start();
 	threadLogic->start();
 
-	// show scene
+	// show scene with black background
 	setScene(gameScene);
 	this->ensureVisible(gameScene->gameRect);
-	setBackgroundBrush(Qt::gray);
+	setBackgroundBrush(Qt::black);
 	setCacheMode(QGraphicsView::CacheBackground);
 	setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
 	show();
@@ -56,8 +54,6 @@ GameWindow::GameWindow(QWidget* parent)
 GameWindow::~GameWindow()
 {
 	// delete all dynamic objects
-	delete inputThread;
-	delete gameThread;
 	delete threadInputs;
 	delete threadLogic;
 	delete gameScene;

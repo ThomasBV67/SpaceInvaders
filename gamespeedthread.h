@@ -15,6 +15,8 @@ public:
     GameSpeedThread() {};
     ~GameSpeedThread() {};
 
+    bool stop = false;
+
 public slots:
     void process();
     void updateGameSpeed(int newSpeed) {};
@@ -26,6 +28,6 @@ signals:
     void updateGameLogic();
 
 private:
-    int gameSpeed=100;
+    int gameSpeed=33;
 };
 #endif

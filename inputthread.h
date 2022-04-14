@@ -15,6 +15,8 @@ public:
 	InputThread();
     ~InputThread() {};
 
+    bool stop = false;
+
 public slots:
     void process();
     void updateGameSpeed() {};

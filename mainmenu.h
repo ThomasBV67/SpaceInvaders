@@ -21,11 +21,19 @@ public:
 	void startGame(); // TO DO
 	void quitGame(); // TO DO
 	void selectButton(int btn);
-
-private:
 	QVBoxLayout* mainLayout;
 	QPushButton* goBtn;
 	QPushButton* quitBtn;
 	int selectedBtn = START_BTN;
+
+public slots:
+
+signals: 
+	void changeWindow();
+	void killAll();
+	
+private:
+	
+
 };
 #endif

@@ -31,8 +31,11 @@
 #define DOWN	2
 
 #define X_RIGHT_LIMIT	1024
-#define X_LEFT_LIMIT	100
+#define X_LEFT_LIMIT	200
 
 #define ENEMY_MOVE_INCREMENT	1
+#define ENEMY_DOWN_INCREMENT	10
+
+#define VERTICAL_SPREAD		50
 
 #endif	

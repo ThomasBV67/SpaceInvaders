@@ -5,6 +5,7 @@
 #include "inputthread.h"
 #include "enemy.h"
 #include "gamescene.h"
+#include "stackedw.h"
 
 #include <QApplication>
 #include <QGraphicsScene>
@@ -13,37 +14,24 @@
 #include <QStackedWidget>
 #include <QMainWindow>
 
-GameWindow* game;
 
+/// <summary>
+/// This application is a spaceinvader inspired game.
+/// </summary>
+/// <param name="argc"></param>
+/// <param name="argv"></param>
+/// <returns></returns>
 int main(int argc, char *argv[])
 {
-	bool window = 0;
 	//Init app
 	QApplication a(argc, argv);
+
 	// setup a stacked widget to allow different pages
-	QStackedWidget* sWidget = new QStackedWidget();
+	StackedW* game = new StackedW();
 
-	// init all pages
-	MainMenu* mainMenu = new MainMenu();
-	//PauseMenu* pauseMenu = new PauseMenu(); TO DO
-	GameWindow* gameWindow = new GameWindow(); 
-
-	Player* player = new Player();
-	//Enemy* enemy = new Enemy();
-
-	GameScene* sceneTest = new GameScene();
-
-	gameWindow->gameScene->generateEnemies(10, 4);
-
-	// adding all pages to the stacked widget
-	sWidget->addWidget(mainMenu);
-	sWidget->addWidget(gameWindow);
-	//sWidget->addWidget(pauseMenu); TO DO
-
-	// Fix the size of the window and show the mainMenu
-	sWidget->setCurrentWidget(gameWindow);
-	sWidget->setFixedSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-	sWidget->show();
+	// setup a clean way to exit the game
+	QObject::connect(game->mainMenu->quitBtn, SIGNAL(clicked()), &a, SLOT(quit()));
+	QObject::connect(game->pauseMenu->quitBtn, SIGNAL(clicked()), &a, SLOT(quit()));
 
 	return a.exec();
 }
