@@ -19,6 +19,7 @@ public:
 	}
 	Bullet(bool inSens, QGraphicsItem* parent);
 	bool sens;
+	//test for commit
 protected:
 	void advance(int step) override;
 };
