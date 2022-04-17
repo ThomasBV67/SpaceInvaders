@@ -24,7 +24,6 @@ public:
     void keyPressEvent(QKeyEvent* keyEvent);
     void collision(Bullet* item);
     void collisionAll();
-    
     template<typename T>
     void killItem(T* item);
 
@@ -69,11 +68,19 @@ inline void GameScene::killItem<Bullet>(Bullet* item)
 }
 
 template<>
-inline void GameScene::killItem<QGraphicsItem>(QGraphicsItem* item) 
+inline void GameScene::killItem<Enemy>(Enemy* item) 
 {
     enemyList.removeAll(item);
     removeItem(item);
     delete item;
 }
-
+// backout function si il y a un probleme
+template<>
+inline void GameScene::killItem<QGraphicsItem>(QGraphicsItem* item)
+{
+    removeItem(item);
+    delete item;
+}
 #endif // GAMESCENE_H
+
+

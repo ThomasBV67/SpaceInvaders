@@ -192,9 +192,10 @@ void GameScene::keyPressEvent(QKeyEvent* keyEvent)
 /// 
 /// </summary>
 /// <param name="item"></param>
-
 void GameScene::collision(Bullet* item)
 {
+    Bullet* dynamicClassBullet;
+    Enemy* dynamicClassEnemy;
     QList<QGraphicsItem*>list = collidingItems(item, Qt::IntersectsItemShape);
     if (list.isEmpty()) {
         killItem(item);
@@ -203,17 +204,19 @@ void GameScene::collision(Bullet* item)
         int type = list[1]->type();
         switch (type) {
         case BULLET_TYPE:
-
+            dynamicClassBullet = dynamic_cast<Bullet*>(list[1]);
             killItem(item);
-            killItem(list[1]);
+            killItem(dynamicClassBullet);
             break;
         case INVADER_TYPE:
+            dynamicClassEnemy = dynamic_cast<Enemy*>(list[1]);
             killItem(item);
-            killItem(list[1]);
+            killItem(dynamicClassEnemy);
             break;
         case PLAYER_TYPE:
             killItem(item);
             //player1->hit(); TO DO
+            break;
         default:
             break;
         }
