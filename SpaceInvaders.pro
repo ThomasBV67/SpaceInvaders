@@ -15,7 +15,7 @@ RESOURCES = res.qrc
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 # Input
-HEADERS += mainmenu.h player.h gamewindow.h defines.h inputthread.h enemy.h gamescene.h gamespeedthread.h bullet.h stackedw.h pausemenu.h
-SOURCES += main.cpp mainmenu.cpp player.cpp gamewindow.cpp inputthread.cpp enemy.cpp gamescene.cpp gamespeedthread.cpp bullet.cpp stackedw.cpp pausemenu.cpp
+HEADERS += mainmenu.h player.h gamewindow.h defines.h inputthread.h enemy.h gamescene.h gamespeedthread.h bullet.h stackedw.h pausemenu.h shield.h
+SOURCES += main.cpp mainmenu.cpp player.cpp gamewindow.cpp inputthread.cpp enemy.cpp gamescene.cpp gamespeedthread.cpp bullet.cpp stackedw.cpp pausemenu.cpp shield.cpp
 QT += widgets
 

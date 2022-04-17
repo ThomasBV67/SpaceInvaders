@@ -5,6 +5,7 @@
 #include "player.h"
 #include "bullet.h"
 #include "defines.h"
+#include "shield.h"
 
 #include <QgraphicsRectItem>
 #include <QGraphicsScene>
@@ -49,6 +50,9 @@ public slots:
 
 signals:
     void pause();
+
+private:
+    void setUpShields();
 };
 
 template<>

@@ -21,6 +21,11 @@
 #define BULLET_SPEED 10
 #define BULLET_TYPE 65538
 
+#define SHIELD_WIDTH 60
+#define SHIELD_HEIGHT 32
+#define SHIELD_BASEHP 5
+#define SHIELD_TYPE 65540
+
 #define GAMERECT_TYPE 3
 
 #define START_BTN	0

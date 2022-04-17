@@ -5,12 +5,13 @@ GameScene::GameScene(QObject* parent)
 {
     setSceneRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
     player1 = new Player(this);
-    gameRect = new QGraphicsRectItem(BORDER_WIDTH_SIDE, BORDER_WIDTH_TOP, WINDOW_WIDTH - BORDER_WIDTH_SIDE, WINDOW_HEIGHT - 2 * BORDER_WIDTH_TOP);
+    gameRect = new QGraphicsRectItem(X_LEFT_LIMIT, BORDER_WIDTH_TOP, WINDOW_WIDTH-X_LEFT_LIMIT, WINDOW_HEIGHT - 2 * BORDER_WIDTH_TOP);
     player1->setGameRect(gameRect);
     gameRect->setZValue(10);
+    gameRect->setPen(QPen(Qt::white,3));
     addItem(gameRect);
     addItem(player1);
-
+    setUpShields();
     // sets background color to black
     QPalette palette;
     palette.setColor(QPalette::Window, Qt::black);
@@ -35,8 +36,8 @@ void GameScene::generateEnemies(int cols, int rows)
         for (int j = 0; j < cols; j++)
         {
             // horizontally separate the enemies by a number of pixel relative to the amount of enemies
-            divX = (WINDOW_WIDTH - (BORDER_WIDTH_SIDE * 2)) / (cols+1);
-            tempX = BORDER_WIDTH_SIDE + j * divX;
+            divX = (WINDOW_WIDTH - (X_LEFT_LIMIT)) / (cols+1);
+            tempX = X_LEFT_LIMIT + j * divX;
 
             // vertical separation is a fixed value
             divY = VERTICAL_SPREAD;
@@ -191,6 +192,7 @@ void GameScene::keyPressEvent(QKeyEvent* keyEvent)
 /// 
 /// </summary>
 /// <param name="item"></param>
+
 void GameScene::collision(Bullet* item)
 {
     QList<QGraphicsItem*>list = collidingItems(item, Qt::IntersectsItemShape);
@@ -201,6 +203,7 @@ void GameScene::collision(Bullet* item)
         int type = list[1]->type();
         switch (type) {
         case BULLET_TYPE:
+
             killItem(item);
             killItem(list[1]);
             break;
@@ -254,6 +257,17 @@ void GameScene::eventStart()
 void GameScene::eventPause()
 {
     paused = true;
+}
+/// <summary>
+/// This function is called when the scene is started
+/// the shields are created and added to the scene
+/// </summary>
+void GameScene::setUpShields()
+{
+    for (int i = 0; i < 4; i++) {
+        //((WINDOW_WIDTH - X_LEFT_LIMIT) - 4 * SHIELD_WIDTH) / 5
+            new Shield(X_LEFT_LIMIT+ ((WINDOW_WIDTH - X_LEFT_LIMIT) - 4 * SHIELD_WIDTH) / 5 + i*((((WINDOW_WIDTH - X_LEFT_LIMIT) - 4 * SHIELD_WIDTH) / 5)+ SHIELD_WIDTH ), WINDOW_HEIGHT- 200,this);
+    }
 }
 
 /// <summary>
