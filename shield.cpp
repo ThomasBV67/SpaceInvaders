@@ -9,8 +9,8 @@ Shield::Shield(qreal inX, qreal inY, QGraphicsScene* parent) {
 
 bool Shield::getHit() {
 	hitPoints--;
-	//setGraphicsEffect(QGraphicsOpacityEffect::setOpacity(hitPoints / SHIELD_BASEHP)); 
-	// si le shield na plus de hp false est retourne
+	opac = float(hitPoints)/ float(SHIELD_BASEHP);
+	setOpacity(opac);
 	if (hitPoints <= 0) {
 		return false;
 	}

@@ -12,7 +12,7 @@
 class Shield : public QGraphicsPixmapItem
 {
 public:
-	enum { Type = UserType + 3 };
+	enum { Type = UserType + 4 };
 	int type() const override {
 		return Type;
 	}
@@ -20,6 +20,7 @@ public:
 	bool getHit();
 private:
 	int hitPoints;
+	float opac;
 };
 
 

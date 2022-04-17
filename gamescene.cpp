@@ -196,6 +196,7 @@ void GameScene::collision(Bullet* item)
 {
     Bullet* dynamicClassBullet;
     Enemy* dynamicClassEnemy;
+    Shield* dynamcClassShield;
     QList<QGraphicsItem*>list = collidingItems(item, Qt::IntersectsItemShape);
     if (list.isEmpty()) {
         killItem(item);
@@ -216,6 +217,11 @@ void GameScene::collision(Bullet* item)
         case PLAYER_TYPE:
             killItem(item);
             //player1->hit(); TO DO
+            break;
+        case SHIELD_TYPE:
+            dynamcClassShield = dynamic_cast<Shield*>(list[1]);
+            killItem(item);
+            killItem(dynamcClassShield);
             break;
         default:
             break;
@@ -260,6 +266,31 @@ void GameScene::eventStart()
 void GameScene::eventPause()
 {
     paused = true;
+}
+
+/// <summary>
+/// This updates the variables leftmostAlien and rightmostAlien
+/// </summary>
+void GameScene::updateLeftRightAlien()
+{
+    if (!enemyList.contains(leftMostAlien)) {
+        int max = 100;
+        for (int i = 0; i < enemyList.size(); i++) {
+            if (enemyList[i]->gridPosition.x <= max) {
+                max = enemyList[i]->gridPosition.x;
+                leftMostAlien = enemyList[i];
+            }
+        }
+    }
+    if (!enemyList.contains(rightMostAlien)) {
+        int min = -1;
+        for (int i = 0; i < enemyList.size(); i++) {
+            if (enemyList[i]->gridPosition.x >= min) {
+                min = enemyList[i]->gridPosition.x;
+                rightMostAlien = enemyList[i];
+            }
+        }
+    }
 }
 /// <summary>
 /// This function is called when the scene is started
