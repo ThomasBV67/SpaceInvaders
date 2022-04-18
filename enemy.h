@@ -7,6 +7,7 @@
 #include <QKeyEvent>
 #include <QGraphicsScene>
 #include <QObject>
+#include "bullet.h"
 
 struct GridPosition
 {
@@ -22,8 +23,10 @@ public:
 		return Type;
 	}
 	Enemy(int coorX, int coorY, int gridX, int gridY, QWidget* parent = NULL);
+	Bullet* shoot();
 	//void keyPressEvent(QKeyEvent* event);
 	GridPosition gridPosition;
+
 private:
 
 };

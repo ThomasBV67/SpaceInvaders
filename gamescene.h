@@ -56,6 +56,7 @@ private:
     void updateLeftRightAlien();
     QGraphicsRectItem* GameOverZone;
     void checkInvaderTouchDown();
+    void invaderAttack(int attackRate);
     bool gameOver;
 };
 
