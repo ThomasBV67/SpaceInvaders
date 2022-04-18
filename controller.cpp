@@ -8,7 +8,7 @@
  *        Les connexions vers QT doivent être faites dans la fonction decodeInputs.
 */
 
-#include "controller.hpp"
+#include "controller.h"
 /*---------------------------Definition de fonctions ------------------------
 Fonction principale -- A démarrer dans un thread et utiliser la f
 Entrée : Tampon de réception du message

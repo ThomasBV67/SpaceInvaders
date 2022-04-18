@@ -46,4 +46,7 @@
 
 #define VERTICAL_SPREAD		50
 
+#define BAUD 115200           // Frequence de transmission serielle
+#define MSG_MAX_SIZE 1024   // Longueur maximale d'un message
+
 #endif	

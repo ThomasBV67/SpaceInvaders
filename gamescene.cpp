@@ -54,8 +54,14 @@ void GameScene::generateEnemies(int cols, int rows)
             tempEnemy = new Enemy(tempX,tempY,j,i);
             enemyList.append(tempEnemy);
             addItem(tempEnemy);
+            if (i == rows - 1)
+            {
+                lowestEnemies.append(tempEnemy);
+            }
         }
+        
     }
+
 
     // values used to know how wide the aliens can travel horizontally 
     // before hiting a wall
@@ -216,26 +222,85 @@ void GameScene::collision(Bullet* item)
     }
     for (int i = 0; i < list.size();i++) {
         int type = list[i]->type();
+
         switch (type) {
         case BULLET_TYPE:
             dynamicClassBullet = dynamic_cast<Bullet*>(list[i]);
             killItem(item);
             killItem(dynamicClassBullet);
             break;
+
         case INVADER_TYPE:
             dynamicClassEnemy = dynamic_cast<Enemy*>(list[i]);
             killItem(item);
+
+            // changing the pointer to the new rightmost alien if it dies
+            if(dynamicClassEnemy->x() == rightMostAlien->x() && dynamicClassEnemy->y() == rightMostAlien->y())
+            {
+                int maxX = 0;
+                Enemy* newRightMost;
+                for (int k = 0; k < enemyList.count(); k++)
+                {
+                    if (enemyList[k]->x()>maxX)
+                    {
+                        maxX = enemyList[k]->x();
+                        newRightMost = enemyList[k];
+                    }
+                }
+                rightMostAlien = newRightMost;
+            }
+             
+            // changing the pointer to the new leftmost alien if it dies
+            else if (dynamicClassEnemy->x() == leftMostAlien->x() && dynamicClassEnemy->y() == leftMostAlien->y())
+            {
+                int minX = 10000;
+                Enemy* newleftMost;
+                for (int k = 0; k < enemyList.count(); k++)
+                {
+                    if (enemyList[k]->x() < minX)
+                    {
+                        minX = enemyList[k]->x();
+                        newleftMost = enemyList[k];
+                    }
+                }
+                leftMostAlien = newleftMost;
+            }
+
+            // update the lowest enemies list if one dies
+            if (lowestEnemies.contains(dynamicClassEnemy))
+            {
+                lowestEnemies.removeOne(dynamicClassEnemy);
+                int maxY = 0;
+                Enemy* newLowest = nullptr;
+
+                for (int k = 0; k < enemyList.count(); k++)
+                {
+                    if (enemyList[k]->x() == dynamicClassEnemy->x() && enemyList[k]->y()>maxY)
+                    {
+                        maxY = enemyList[k]->y();
+                        newLowest = enemyList[k];
+                    }
+                }
+                if (newLowest != nullptr)
+                {
+                    lowestEnemies.append(newLowest);
+                }
+            }
+
             killItem(dynamicClassEnemy);
             break;
+
         case PLAYER_TYPE:
             killItem(item);
             //player1->hit(); TO DO
             break;
+
         case SHIELD_TYPE:
             dynamcClassShield = dynamic_cast<Shield*>(list[i]);
             killItem(item);
             killItem(dynamcClassShield);
             break;
+
         default:
             break;
         }
