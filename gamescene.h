@@ -68,6 +68,7 @@ public slots:
 signals:
     void pause();
     void updateGameSpeed(int);
+    void shake();
 
 private:
     void setUpShields();

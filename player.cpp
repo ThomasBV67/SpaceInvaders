@@ -70,6 +70,6 @@ void Player::setGameRect(QGraphicsRectItem* inGameRect) {
 /// </summary>
 /// <returns></returns>
 Bullet* Player::shoot() {
-	Bullet* bullet = new Bullet(true, this);
+	Bullet* bullet = new Bullet(true, x(),y(),scene(), this);
 	return bullet;
 }

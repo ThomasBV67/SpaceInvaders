@@ -301,7 +301,7 @@ void GameScene::collision(Bullet* item)
                     lowestEnemies.append(newLowest);
                 }
             }
-
+            enemyList.removeAll(dynamicClassEnemy);
             killItem(dynamicClassEnemy);
             if (enemyList.count() == 0)
             {
@@ -395,7 +395,7 @@ void GameScene::eventTimePlayer(DataController newDataController)
         // reload command
         if (dataController.isYPressed)
         {
-           
+            emit shake();
         }
         
         // Shake for bomb

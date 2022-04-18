@@ -9,6 +9,7 @@
 #include "defines.h"
 #include <QObject>
 #include <QDebug>
+#include <QtCore>
 
 using namespace std;
 using json = nlohmann::json;
@@ -82,6 +83,7 @@ class Controller : public QObject
         COMSTAT status;
         DWORD errors;
     public slots:
+        void shake();
     signals:
         void updatedValues(DataController);
 };

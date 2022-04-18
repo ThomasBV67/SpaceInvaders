@@ -20,6 +20,7 @@ void InputThread::process()
     controller = new Controller(com.c_str(), BAUD);
 
     QObject::connect(controller, SIGNAL(updatedValues(DataController)), SLOT(updatedValues(DataController)));
+    QObject::connect(this, SIGNAL(shakeSig()), controller, SLOT(shake()));
 
     if (!controller->isConnected())
     {
@@ -40,4 +41,9 @@ void InputThread::process()
 void InputThread::updatedValues(DataController data)
 {
     emit movePlayer(data);
+}
+
+void InputThread::shakeSlot()
+{
+    emit shakeSig();
 }

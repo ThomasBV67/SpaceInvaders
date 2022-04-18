@@ -14,6 +14,11 @@ Enemy::Enemy(int coorX, int coorY, int gridX, int gridY, QWidget* parent)
 
 Bullet* Enemy::shoot()
 {
-	Bullet* bullet = new Bullet(false, this);
+	unsigned int xVal = 0;
+	unsigned int yVal = 0;
+	xVal = x();
+	yVal = y();
+	QGraphicsScene* thisScene = scene();
+	Bullet* bullet = new Bullet(false, xVal, yVal, thisScene, this);
 	return bullet;
 }

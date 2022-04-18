@@ -30,6 +30,7 @@ int Controller::begin()
             qDebug() << "Erreur lors de l'envoie du message. ";
         }
 
+        this->m_Motor_Mode = 0;
         // Reception message Arduino
         j_msg_rcv.clear(); // effacer le message precedent
         if(!this->RcvFromSerial(raw_msg)) 
@@ -48,28 +49,15 @@ int Controller::begin()
                 this->m_Game_Speed = j_msg_rcv["pot_Value"];
                 this->getButtonValues(j_msg_rcv["btn_Value"], this->m_Btn_States);
                 this->decodeInputs();  //Decodes values from inputs -- Sert aussi a modifier des valeurs pour des fins de test
-                j_msg_send["vitesse_Jeu"] = this->m_Game_Speed;  //Valeur de vie a afficher - Pot Value instead as of now   
-                if (this->checkForShake())
-                    this->m_Motor_Mode = 3; //Mode 3 = bomba
-                j_msg_send["moteur_On"] = this->m_Motor_Mode;
+                
             }
             
 
-            //Debugging section -- Affiche les trames envoyées et recues en alternance a une vitesse plus lisible :)
-            
-            if(this->m_Motor_Mode!=0)
-                cerr << j_msg_send <<endl;
-            else if(past_Speed!=this->m_Game_Speed)
-                cerr << j_msg_rcv <<endl;
-            past_Speed=this->m_Game_Speed;
-            this->m_Motor_Mode=0;
-            //countSend+=10;
-            //countRead+=10;
-            
-            //cout << j_msg_send <<endl;
-            //cout << j_msg_rcv <<endl;
         }
         updateData();
+        QCoreApplication::processEvents();
+        j_msg_send["vitesse_Jeu"] = this->m_Game_Speed;  //Valeur de speed du jeu    
+        j_msg_send["moteur_On"] = this->m_Motor_Mode;
         emit updatedValues(dataController);
         Sleep(50); // Fréquence de comm de 20 Hertz
         //Sleep(20); // Fréquence de comm de 50 Hertz
@@ -397,4 +385,9 @@ void Controller::updateData()
     dataController.isYPressed = isYPressed;
     dataController.isBPressed = isBPressed;
     dataController.isAPressed = isAPressed;
+}
+
+void Controller::shake()
+{
+    this->m_Motor_Mode = 3; //Mode 3 = bomba
 }

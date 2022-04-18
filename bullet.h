@@ -17,7 +17,7 @@ public:
 	int type() const override {
 		return Type;
 	}
-	Bullet(bool inSens, QGraphicsItem* parent);
+	Bullet(bool inSens, int x, int y, QGraphicsScene* scene, QGraphicsItem* parent = nullptr);
 	bool sens;
 	//test for commit
 protected:

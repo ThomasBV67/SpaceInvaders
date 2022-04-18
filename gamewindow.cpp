@@ -27,6 +27,7 @@ GameWindow::GameWindow(QWidget* parent)
 	connect(inputThread, SIGNAL(finished()), threadInputs, SLOT(quit()));
 	connect(inputThread, SIGNAL(finished()), inputThread, SLOT(deleteLater()));
 	connect(threadInputs, SIGNAL(finished()), threadInputs, SLOT(deleteLater()));
+	connect(gameScene, SIGNAL(shake()), inputThread, SLOT(shakeSlot()));
 
 	// base connects for game logic
 	connect(threadLogic, SIGNAL(started()), gameThread, SLOT(process()));

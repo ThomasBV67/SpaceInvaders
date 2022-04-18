@@ -1,16 +1,19 @@
 #include "bullet.h"
 
-Bullet::Bullet(bool inSens, QGraphicsItem* parent) {
+Bullet::Bullet(bool inSens, int x, int y, QGraphicsScene*scene, QGraphicsItem* parent) {
 	sens = inSens;
 	setPixmap(QPixmap(":/images/bullet.png"));
 	if (sens) {
-		setPos(parent->x() + PLAYER_WIDTH / 2 -1, parent->y() - BULLET_HEIGHT);
+		setPos(x + PLAYER_WIDTH / 2 -1, y - BULLET_HEIGHT);
 	}
 	else {
-		setPos(parent->x() + INVADER_WIDTH / 2 -1, parent->y() + INVADER_HEIGHT);
+		setPos(x + INVADER_WIDTH / 2 -1, y + INVADER_HEIGHT);
 	}
+	if (scene == nullptr)
+	{
 
-	parent->scene()->addItem(this);
+	}
+	scene->addItem(this);
 }
 
 void Bullet::advance(int step)

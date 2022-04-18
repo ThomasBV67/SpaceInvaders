@@ -31,12 +31,14 @@ public slots:
     void process();
     void updateGameSpeed() {};
     void updatedValues(DataController);
+    void shakeSlot();
 
 signals:
     void finished();
     void movePlayer(DataController);
     void controllerConnected();
     void error(QString err);
+    void shakeSig();
 
 private:
 
