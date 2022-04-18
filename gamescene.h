@@ -31,6 +31,7 @@ public:
     QList<Enemy*> enemyList;
     QList<Bullet*> playerBulletsList;
     QList<Bullet*> enemyBulletsList;
+    QList<Enemy*> lowestEnemies;
     Enemy* rightMostAlien;
     Enemy* leftMostAlien;
     int moveDirection = RIGHT;
