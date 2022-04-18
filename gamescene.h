@@ -77,6 +77,7 @@ private:
     void initLevels();
     void setLevel(int);
     void levelUp();
+    void invaderAttack(int attackRate);
     bool gameOver;
     int level=0;
 };

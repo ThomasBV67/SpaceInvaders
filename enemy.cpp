@@ -11,3 +11,9 @@ Enemy::Enemy(int coorX, int coorY, int gridX, int gridY, QWidget* parent)
 	gridPosition.x = gridX;
 	gridPosition.y = gridY;
 }
+
+Bullet* Enemy::shoot()
+{
+	Bullet* bullet = new Bullet(false, this);
+	return bullet;
+}

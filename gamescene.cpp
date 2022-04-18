@@ -72,6 +72,7 @@ void GameScene::generateEnemies(int cols, int rows)
                 lowestEnemies.append(tempEnemy);
             }
         }
+        
     }
 
 
@@ -160,6 +161,8 @@ void GameScene::eventTimeToMove()
     moveAliens();
     advance();
     collisionAll();
+    invaderAttack(10);
+
 }
 
 /// <summary>
@@ -475,6 +478,15 @@ void GameScene::checkInvaderTouchDown()
             paused = true;
             // gameOver Menu ... score systeme...
         }
+    }
+}
+
+void GameScene::invaderAttack(int attackRate)
+{
+    int value = rand() % 100 + 1;
+    if (value <= attackRate) {
+        int selectedShooter = rand() % lowestEnemies.size();
+        enemyBulletsList.append(lowestEnemies[selectedShooter]->shoot());
     }
 }
 
