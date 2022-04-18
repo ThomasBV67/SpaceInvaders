@@ -3,13 +3,21 @@
 GameScene::GameScene(QObject* parent)
     : QGraphicsScene(parent)
 {
+    gameOver = false;
     setSceneRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
     player1 = new Player(this);
-    gameRect = new QGraphicsRectItem(BORDER_WIDTH_SIDE, BORDER_WIDTH_TOP, WINDOW_WIDTH - BORDER_WIDTH_SIDE, WINDOW_HEIGHT - 2 * BORDER_WIDTH_TOP);
+    gameRect = new QGraphicsRectItem(X_LEFT_LIMIT, BORDER_WIDTH_TOP, WINDOW_WIDTH-X_LEFT_LIMIT, WINDOW_HEIGHT - 2 * BORDER_WIDTH_TOP);
     player1->setGameRect(gameRect);
     gameRect->setZValue(10);
+    gameRect->setPen(QPen(Qt::white,3));
     addItem(gameRect);
     addItem(player1);
+    setUpShields();
+
+    // set up of gameoverzone
+    GameOverZone = new QGraphicsRectItem(X_LEFT_LIMIT, WINDOW_HEIGHT - 200, WINDOW_WIDTH - X_LEFT_LIMIT, 200);
+    GameOverZone->hide();
+    addItem(GameOverZone);
 
     // sets background color to black
     QPalette palette;
@@ -35,8 +43,8 @@ void GameScene::generateEnemies(int cols, int rows)
         for (int j = 0; j < cols; j++)
         {
             // horizontally separate the enemies by a number of pixel relative to the amount of enemies
-            divX = (WINDOW_WIDTH - (BORDER_WIDTH_SIDE * 2)) / (cols+1);
-            tempX = BORDER_WIDTH_SIDE + j * divX;
+            divX = (WINDOW_WIDTH - (X_LEFT_LIMIT)) / (cols+1);
+            tempX = X_LEFT_LIMIT + j * divX;
 
             // vertical separation is a fixed value
             divY = VERTICAL_SPREAD;
@@ -112,6 +120,7 @@ void GameScene::moveAliens()
         else if (moveDirection == DOWN)
         {
             tempY += ENEMY_DOWN_INCREMENT;
+            checkInvaderTouchDown();
         }
 
         enemyList[i]->setX(tempX);
@@ -133,6 +142,7 @@ void GameScene::eventTimeToMove()
     moveAliens();
     advance();
     collisionAll();
+
 }
 
 /// <summary>
@@ -175,9 +185,13 @@ void GameScene::keyPressEvent(QKeyEvent* keyEvent)
     else if (keyEvent->key() == Qt::Key_Right) {
         player1->speed += 1;
     }
-    // P
+    // debug
     else if (keyEvent->key() == Qt::Key_P) {
-        collision(playerBulletsList[0]);
+        player1->useShield();
+    }
+    //debug
+    else if (keyEvent->key() == Qt::Key_O) {
+        player1->getHit();
     }
     // Escape key pauses the game and opens the pause menu
     else if (keyEvent->key() == Qt::Key_Escape)
@@ -193,24 +207,35 @@ void GameScene::keyPressEvent(QKeyEvent* keyEvent)
 /// <param name="item"></param>
 void GameScene::collision(Bullet* item)
 {
+    Bullet* dynamicClassBullet;
+    Enemy* dynamicClassEnemy;
+    Shield* dynamcClassShield;
     QList<QGraphicsItem*>list = collidingItems(item, Qt::IntersectsItemShape);
     if (list.isEmpty()) {
         killItem(item);
     }
-    if (list.size() == 2) {
-        int type = list[1]->type();
+    for (int i = 0; i < list.size();i++) {
+        int type = list[i]->type();
         switch (type) {
         case BULLET_TYPE:
+            dynamicClassBullet = dynamic_cast<Bullet*>(list[i]);
             killItem(item);
-            killItem(list[1]);
+            killItem(dynamicClassBullet);
             break;
         case INVADER_TYPE:
+            dynamicClassEnemy = dynamic_cast<Enemy*>(list[i]);
             killItem(item);
-            killItem(list[1]);
+            killItem(dynamicClassEnemy);
             break;
         case PLAYER_TYPE:
             killItem(item);
             //player1->hit(); TO DO
+            break;
+        case SHIELD_TYPE:
+            dynamcClassShield = dynamic_cast<Shield*>(list[i]);
+            killItem(item);
+            killItem(dynamcClassShield);
+            break;
         default:
             break;
         }
@@ -254,6 +279,54 @@ void GameScene::eventStart()
 void GameScene::eventPause()
 {
     paused = true;
+}
+
+/// <summary>
+/// This updates the variables leftmostAlien and rightmostAlien
+/// </summary>
+void GameScene::updateLeftRightAlien()
+{
+    if (!enemyList.contains(leftMostAlien)) {
+        int max = 100;
+        for (int i = 0; i < enemyList.size(); i++) {
+            if (enemyList[i]->gridPosition.x <= max) {
+                max = enemyList[i]->gridPosition.x;
+                leftMostAlien = enemyList[i];
+            }
+        }
+    }
+    if (!enemyList.contains(rightMostAlien)) {
+        int min = -1;
+        for (int i = 0; i < enemyList.size(); i++) {
+            if (enemyList[i]->gridPosition.x >= min) {
+                min = enemyList[i]->gridPosition.x;
+                rightMostAlien = enemyList[i];
+            }
+        }
+    }
+}
+/// <summary>
+/// This function is called when the scene is started
+/// the shields are created and added to the scene
+/// </summary>
+void GameScene::setUpShields()
+{
+    for (int i = 0; i < 4; i++) {
+        //((WINDOW_WIDTH - X_LEFT_LIMIT) - 4 * SHIELD_WIDTH) / 5
+            new Shield(X_LEFT_LIMIT+ ((WINDOW_WIDTH - X_LEFT_LIMIT) - 4 * SHIELD_WIDTH) / 5 + i*((((WINDOW_WIDTH - X_LEFT_LIMIT) - 4 * SHIELD_WIDTH) / 5)+ SHIELD_WIDTH ), WINDOW_HEIGHT- 200,this);
+    }
+}
+
+void GameScene::checkInvaderTouchDown()
+{
+    QList<QGraphicsItem*>list = collidingItems(GameOverZone, Qt::IntersectsItemShape);
+    for (int item = 0; item < list.size(); item++) {
+        if (list[item]->type() == INVADER_TYPE) {
+            gameOver = true;
+            paused = true;
+            // gameOver Menu ... score systeme...
+        }
+    }
 }
 
 /// <summary>

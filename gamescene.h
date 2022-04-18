@@ -5,6 +5,7 @@
 #include "player.h"
 #include "bullet.h"
 #include "defines.h"
+#include "shield.h"
 
 #include <QgraphicsRectItem>
 #include <QGraphicsScene>
@@ -23,7 +24,6 @@ public:
     void keyPressEvent(QKeyEvent* keyEvent);
     void collision(Bullet* item);
     void collisionAll();
-    
     template<typename T>
     void killItem(T* item);
 
@@ -49,6 +49,13 @@ public slots:
 
 signals:
     void pause();
+
+private:
+    void setUpShields();
+    void updateLeftRightAlien();
+    QGraphicsRectItem* GameOverZone;
+    void checkInvaderTouchDown();
+    bool gameOver;
 };
 
 template<>
@@ -65,11 +72,28 @@ inline void GameScene::killItem<Bullet>(Bullet* item)
 }
 
 template<>
-inline void GameScene::killItem<QGraphicsItem>(QGraphicsItem* item) 
+inline void GameScene::killItem<Enemy>(Enemy* item) 
 {
     enemyList.removeAll(item);
     removeItem(item);
     delete item;
+    updateLeftRightAlien();
 }
-
+template<>
+inline void GameScene::killItem<Shield>(Shield* item)
+{
+    if (!item->getHit()) {
+        removeItem(item);
+        delete item;
+    }
+}
+// backout function si il y a un probleme
+template<>
+inline void GameScene::killItem<QGraphicsItem>(QGraphicsItem* item)
+{
+    removeItem(item);
+    delete item;
+}
 #endif // GAMESCENE_H
+
+
