@@ -3,6 +3,7 @@
 GameScene::GameScene(QObject* parent)
     : QGraphicsScene(parent)
 {
+    gameOver = false;
     setSceneRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
     player1 = new Player(this);
     gameRect = new QGraphicsRectItem(X_LEFT_LIMIT, BORDER_WIDTH_TOP, WINDOW_WIDTH-X_LEFT_LIMIT, WINDOW_HEIGHT - 2 * BORDER_WIDTH_TOP);
@@ -12,6 +13,12 @@ GameScene::GameScene(QObject* parent)
     addItem(gameRect);
     addItem(player1);
     setUpShields();
+
+    // set up of gameoverzone
+    GameOverZone = new QGraphicsRectItem(X_LEFT_LIMIT, WINDOW_HEIGHT - 200, WINDOW_WIDTH - X_LEFT_LIMIT, 200);
+    GameOverZone->hide();
+    addItem(GameOverZone);
+
     // sets background color to black
     QPalette palette;
     palette.setColor(QPalette::Window, Qt::black);
@@ -113,6 +120,7 @@ void GameScene::moveAliens()
         else if (moveDirection == DOWN)
         {
             tempY += ENEMY_DOWN_INCREMENT;
+            checkInvaderTouchDown();
         }
 
         enemyList[i]->setX(tempX);
@@ -134,6 +142,7 @@ void GameScene::eventTimeToMove()
     moveAliens();
     advance();
     collisionAll();
+
 }
 
 /// <summary>
@@ -176,9 +185,13 @@ void GameScene::keyPressEvent(QKeyEvent* keyEvent)
     else if (keyEvent->key() == Qt::Key_Right) {
         player1->speed += 1;
     }
-    // P
+    // debug
     else if (keyEvent->key() == Qt::Key_P) {
-        collision(playerBulletsList[0]);
+        player1->useShield();
+    }
+    //debug
+    else if (keyEvent->key() == Qt::Key_O) {
+        player1->getHit();
     }
     // Escape key pauses the game and opens the pause menu
     else if (keyEvent->key() == Qt::Key_Escape)
@@ -201,16 +214,16 @@ void GameScene::collision(Bullet* item)
     if (list.isEmpty()) {
         killItem(item);
     }
-    if (list.size() == 2) {
-        int type = list[1]->type();
+    for (int i = 0; i < list.size();i++) {
+        int type = list[i]->type();
         switch (type) {
         case BULLET_TYPE:
-            dynamicClassBullet = dynamic_cast<Bullet*>(list[1]);
+            dynamicClassBullet = dynamic_cast<Bullet*>(list[i]);
             killItem(item);
             killItem(dynamicClassBullet);
             break;
         case INVADER_TYPE:
-            dynamicClassEnemy = dynamic_cast<Enemy*>(list[1]);
+            dynamicClassEnemy = dynamic_cast<Enemy*>(list[i]);
             killItem(item);
             killItem(dynamicClassEnemy);
             break;
@@ -219,7 +232,7 @@ void GameScene::collision(Bullet* item)
             //player1->hit(); TO DO
             break;
         case SHIELD_TYPE:
-            dynamcClassShield = dynamic_cast<Shield*>(list[1]);
+            dynamcClassShield = dynamic_cast<Shield*>(list[i]);
             killItem(item);
             killItem(dynamcClassShield);
             break;
@@ -301,6 +314,18 @@ void GameScene::setUpShields()
     for (int i = 0; i < 4; i++) {
         //((WINDOW_WIDTH - X_LEFT_LIMIT) - 4 * SHIELD_WIDTH) / 5
             new Shield(X_LEFT_LIMIT+ ((WINDOW_WIDTH - X_LEFT_LIMIT) - 4 * SHIELD_WIDTH) / 5 + i*((((WINDOW_WIDTH - X_LEFT_LIMIT) - 4 * SHIELD_WIDTH) / 5)+ SHIELD_WIDTH ), WINDOW_HEIGHT- 200,this);
+    }
+}
+
+void GameScene::checkInvaderTouchDown()
+{
+    QList<QGraphicsItem*>list = collidingItems(GameOverZone, Qt::IntersectsItemShape);
+    for (int item = 0; item < list.size(); item++) {
+        if (list[item]->type() == INVADER_TYPE) {
+            gameOver = true;
+            paused = true;
+            // gameOver Menu ... score systeme...
+        }
     }
 }
 

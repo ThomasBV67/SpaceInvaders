@@ -20,16 +20,22 @@ public:
 		return Type;
 	}
 	Player(QGraphicsScene* parent = nullptr);
-	void keyPressEvent(QKeyEvent* event);
 	int speed;
 	void updatePlayer();
 	void setGameRect(QGraphicsRectItem* inGameRect);
 	Bullet* shoot();
 	QPointF lastpos;
 	void customAdvance();
+	void useShield();
+	bool getHit();
+	int hitPoints;
+
 private:
 	QGraphicsRectItem* gameRect;
 	QGraphicsScene* parent;
+	
+	int shields;
+	bool shieldProtected;
 
 };
 #endif

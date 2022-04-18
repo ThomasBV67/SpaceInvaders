@@ -4,9 +4,13 @@ Player::Player(QGraphicsScene* inparent)
 {
 	setPixmap(QPixmap(":/images/player.png"));
 	speed = 0;
+	shields = PLAYER_SHIELDAMOUNT;
+	hitPoints = PLAYER_HITPOINTS;
+	shieldProtected = false;
 	setPos(100 + (X_RIGHT_LIMIT - X_LEFT_LIMIT) / 2, WINDOW_HEIGHT - BORDER_WIDTH_TOP - 50);
 	setFlag(QGraphicsItem::ItemIsFocusable);
 	setFocus();
+
 }
 
 /// <summary>
@@ -31,6 +35,28 @@ void Player::customAdvance() {
 	setPos(temp_X, y());
 }
 
+void Player::useShield()
+{
+	if (shields > 0) {
+		shields--;
+		shieldProtected = true;
+		setPixmap(QPixmap(":/images/playershield.png"));
+	}
+}
+
+bool Player::getHit()
+{
+	if (shieldProtected) {
+		shieldProtected = false;
+		setPixmap(QPixmap(":/images/player.png"));
+	}
+	hitPoints--;
+	if (hitPoints > 0)
+		return true;
+	else
+		return false;
+}
+
 /// <summary>
 /// 
 /// </summary>
@@ -46,14 +72,4 @@ void Player::setGameRect(QGraphicsRectItem* inGameRect) {
 Bullet* Player::shoot() {
 	Bullet* bullet = new Bullet(true, this);
 	return bullet;
-}
-
-/// <summary>
-/// 
-/// </summary>
-/// <param name="event"></param>
-void Player::keyPressEvent(QKeyEvent* event) {
-
-
-
 }

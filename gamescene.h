@@ -53,6 +53,9 @@ signals:
 private:
     void setUpShields();
     void updateLeftRightAlien();
+    QGraphicsRectItem* GameOverZone;
+    void checkInvaderTouchDown();
+    bool gameOver;
 };
 
 template<>
