@@ -3,10 +3,23 @@
 GameScene::GameScene(QObject* parent)
     : QGraphicsScene(parent)
 {
+    initLevels();
+    score = new Score();
+    score->setPos(0, 300);
+    addItem(score);
+
+    hp = new Health();
+    hp->setPos(0, 450);
+    addItem(hp);
+
+    currentLevel = new CurrentLevel();
+    currentLevel->setPos(0, 150);
+    addItem(currentLevel);
+    
     gameOver = false;
     setSceneRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
     player1 = new Player(this);
-    gameRect = new QGraphicsRectItem(X_LEFT_LIMIT, BORDER_WIDTH_TOP, WINDOW_WIDTH-X_LEFT_LIMIT, WINDOW_HEIGHT - 2 * BORDER_WIDTH_TOP);
+    gameRect = new QGraphicsRectItem(X_LEFT_LIMIT, BORDER_WIDTH_TOP, WINDOW_WIDTH-X_LEFT_LIMIT-25, WINDOW_HEIGHT - 2 * BORDER_WIDTH_TOP);
     player1->setGameRect(gameRect);
     gameRect->setZValue(10);
     gameRect->setPen(QPen(Qt::white,3));
@@ -59,7 +72,6 @@ void GameScene::generateEnemies(int cols, int rows)
                 lowestEnemies.append(tempEnemy);
             }
         }
-        
     }
 
 
@@ -85,7 +97,7 @@ void GameScene::moveAliens()
     }
 
     // change direction of aliens if right side is reached
-    if (rightMostAlien->x() + ENEMY_MOVE_INCREMENT + INVADER_WIDTH > X_RIGHT_LIMIT)
+    if (rightMostAlien->x() + ENEMY_MOVE_INCREMENT * levels[level].enemySpeedMod + INVADER_WIDTH > X_RIGHT_LIMIT)
     {
         if (moveDirection == RIGHT)
         {
@@ -97,7 +109,7 @@ void GameScene::moveAliens()
         }
     }
     // change direction of aliens if left side is reached
-    else if (leftMostAlien->x() - ENEMY_MOVE_INCREMENT < X_LEFT_LIMIT)
+    else if (leftMostAlien->x() - ENEMY_MOVE_INCREMENT * levels[level].enemySpeedMod < X_LEFT_LIMIT)
     {
         if (moveDirection == LEFT)
         {
@@ -117,15 +129,15 @@ void GameScene::moveAliens()
 
         if (moveDirection == RIGHT)
         {
-            tempX += ENEMY_MOVE_INCREMENT;
+            tempX += ENEMY_MOVE_INCREMENT * levels[level].enemySpeedMod;
         }
         else if (moveDirection == LEFT)
         {
-            tempX -= ENEMY_MOVE_INCREMENT;
+            tempX -= ENEMY_MOVE_INCREMENT * levels[level].enemySpeedMod;
         }
         else if (moveDirection == DOWN)
         {
-            tempY += ENEMY_DOWN_INCREMENT;
+            tempY += ENEMY_DOWN_INCREMENT * levels[level].enemySpeedMod;
             checkInvaderTouchDown();
         }
 
@@ -148,7 +160,6 @@ void GameScene::eventTimeToMove()
     moveAliens();
     advance();
     collisionAll();
-
 }
 
 /// <summary>
@@ -162,7 +173,7 @@ void GameScene::makePlayerShot()
         return;
     }
 
-    if (playerBulletsList.size() < 3) {
+    if (playerBulletsList.size() < 10) {
         playerBulletsList.append(player1->shoot());
     }
 }
@@ -233,6 +244,7 @@ void GameScene::collision(Bullet* item)
         case INVADER_TYPE:
             dynamicClassEnemy = dynamic_cast<Enemy*>(list[i]);
             killItem(item);
+            score->increase(100*dataController.m_Game_Speed);
 
             // changing the pointer to the new rightmost alien if it dies
             if(dynamicClassEnemy->x() == rightMostAlien->x() && dynamicClassEnemy->y() == rightMostAlien->y())
@@ -288,6 +300,10 @@ void GameScene::collision(Bullet* item)
             }
 
             killItem(dynamicClassEnemy);
+            if (enemyList.count() == 0)
+            {
+                levelUp();
+            }
             break;
 
         case PLAYER_TYPE:
@@ -323,9 +339,77 @@ void GameScene::collisionAll()
 /// <summary>
 /// 
 /// </summary>
-void GameScene::eventTimePlayer()
+void GameScene::eventTimePlayer(DataController newDataController)
 {
-    player1->customAdvance();
+    dataController = newDataController;
+
+    if (!paused)
+    {
+        // movement gestion
+        if (dataController.m_joystick.X <= 150)
+        {
+            player1->speed = 15;
+        }
+        else if (dataController.m_joystick.X >= 875)
+        {
+            player1->speed = -15;
+        }
+        else if (400 >= dataController.m_joystick.X && dataController.m_joystick.X >= 150)
+        {
+            player1->speed = (dataController.m_joystick.X - 150) / 25;
+        }
+        else if (875 >= dataController.m_joystick.X && dataController.m_joystick.X >= 625)
+        {
+            player1->speed = (dataController.m_joystick.X - 625) / 25 *-1;
+        }
+        else
+        {
+            player1->speed = 0;
+        }
+        player1->customAdvance();
+
+        // shoot command
+        if (dataController.isXPressed)
+        {
+            makePlayerShot();
+        }
+
+        // update gamespeed
+        emit updateGameSpeed(dataController.m_Game_Speed*10);
+
+        // shield command
+        if (dataController.isBPressed)
+        {
+            player1->useShield();
+        }
+
+        // Dash command
+        if (dataController.isAPressed)
+        {
+
+        }
+        
+        // reload command
+        if (dataController.isYPressed)
+        {
+           
+        }
+        
+        // Shake for bomb
+        if (dataController.isBombDropped)
+        {
+
+        }
+
+        // pause command
+        if (dataController.isStartPressed)
+        {
+            emit pause();
+            paused = true;
+        }
+        
+    }
+    
 }
 
 /// <summary>
@@ -334,7 +418,7 @@ void GameScene::eventTimePlayer()
 void GameScene::eventStart()
 {
     // start game with 10x4 board of enemies
-    generateEnemies(10, 4);
+    levelUp();
     paused = false;
 }
 
@@ -400,4 +484,84 @@ void GameScene::checkInvaderTouchDown()
 void GameScene::eventResume()
 {
     paused = false;
+}
+
+void GameScene::controllerConnected()
+{
+
+}
+
+void GameScene::initLevels()
+{
+    Level temp;
+    
+    // level 1
+    temp.gridX = 10;
+    temp.gridY = 2;
+    temp.enemySpeedMod = 1.0;
+    temp.gameSpeedMod = 1.0;
+    levels.append(temp);
+   
+    // level 2
+    temp.gridX = 10;
+    temp.gridY = 3;
+    temp.enemySpeedMod = 1.0;
+    temp.gameSpeedMod = 1.0;
+    levels.append(temp);
+
+    // level 3
+    temp.gridX = 12;
+    temp.gridY = 3;
+    temp.enemySpeedMod = 1.0;
+    temp.gameSpeedMod = 1.25;
+    levels.append(temp);
+
+    // level 4
+    temp.gridX = 12;
+    temp.gridY = 4;
+    temp.enemySpeedMod = 1.0;
+    temp.gameSpeedMod = 1.25;
+    levels.append(temp);
+
+    // level 5
+    temp.gridX = 12;
+    temp.gridY = 4;
+    temp.enemySpeedMod = 1.5;
+    temp.gameSpeedMod = 1.25;
+    levels.append(temp);
+    
+    // level 6
+    temp.gridX = 12;
+    temp.gridY = 5;
+    temp.enemySpeedMod = 1.5;
+    temp.gameSpeedMod = 1.5;
+    levels.append(temp);
+
+    // level 7
+    temp.gridX = 12;
+    temp.gridY = 5;
+    temp.enemySpeedMod = 2.0;
+    temp.gameSpeedMod = 1.5;
+    levels.append(temp);
+
+    // level 8
+    temp.gridX = 12;
+    temp.gridY = 5;
+    temp.enemySpeedMod = 2.5;
+    temp.gameSpeedMod = 1.5;
+    levels.append(temp);
+}
+
+void GameScene::setLevel(int level)
+{
+    generateEnemies(levels[level].gridX, levels[level].gridY);
+}
+
+void GameScene::levelUp()
+{
+    int level = currentLevel->getLevel();
+    level++;
+    currentLevel->change(level);
+    setLevel(level);
+
 }

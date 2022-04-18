@@ -35,8 +35,12 @@ GameWindow::GameWindow(QWidget* parent)
 	connect(threadLogic, SIGNAL(finished()), threadLogic, SLOT(deleteLater()));
 	connect(gameThread, SIGNAL(updateGameLogic()), gameScene, SLOT(eventTimeToMove())); // moves enemy, bullets, and check for collision
 
+	connect(gameScene, SIGNAL(updateGameSpeed(int)), gameThread, SLOT(updateGameSpeed(int))); 
+
+
 	// additionnal connects for game logic
-	connect(inputThread, SIGNAL(movePlayer()), gameScene, SLOT(eventTimePlayer()));
+	connect(inputThread, SIGNAL(movePlayer(DataController)), gameScene, SLOT(eventTimePlayer(DataController)));
+	connect(inputThread, SIGNAL(controllerConnected()), gameScene, SLOT(controllerConnected()));
 
 	// starting threads
 	threadInputs->start();

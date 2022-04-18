@@ -13,7 +13,7 @@
 #include <QFont>
 #include <QPalette>
 
-class MainMenu : public QWidget, public QObject
+class MainMenu : public QWidget
 {
 	Q_OBJECT
 public:

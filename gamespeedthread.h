@@ -19,7 +19,7 @@ public:
 
 public slots:
     void process();
-    void updateGameSpeed(int newSpeed) {};
+    void updateGameSpeed(int);
     void killProcess() {};
 
 signals:

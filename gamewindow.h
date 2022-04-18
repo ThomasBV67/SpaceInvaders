@@ -10,6 +10,7 @@
 #include "gamescene.h"
 #include "inputthread.h"
 #include "gamespeedthread.h"
+#include "controller.h"
 
 class GameWindow : public QGraphicsView
 {

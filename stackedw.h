@@ -14,7 +14,7 @@
 #include <QtCore>
 #include <QStackedWidget>
 
-class StackedW : public QStackedWidget, public QObject
+class StackedW : public QStackedWidget
 {
 	Q_OBJECT
 public:

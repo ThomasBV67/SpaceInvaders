@@ -27,36 +27,40 @@ int Controller::begin()
     {
         if(!this->SendToSerial(j_msg_send)) 
         {    //Envoie au Arduino
-            cerr << "Erreur lors de l'envoie du message. " << endl;
+            qDebug() << "Erreur lors de l'envoie du message. ";
         }
 
         // Reception message Arduino
         j_msg_rcv.clear(); // effacer le message precedent
         if(!this->RcvFromSerial(raw_msg)) 
         {
-            cerr << "Erreur lors de la reception du message. " << endl;
+            qDebug() << "Erreur lors de la reception du message. ";
         }
         
         // Impression du message de l'Arduino, si valide
         if(raw_msg.size()>0) {
-            j_msg_rcv = json::parse(raw_msg);       // Transfert du message en json
-            this->m_joystick.X = j_msg_rcv["Joy_X"];    
-            this->m_joystick.Y = j_msg_rcv["Joy_Y"];
-            this->m_accel.Z = j_msg_rcv["Acc_Z"];
-            this->m_Game_Speed = j_msg_rcv["pot_Value"];
-            this->getButtonValues(j_msg_rcv["btn_Value"], this->m_Btn_States);
-            this->decodeInputs();  //Decodes values from inputs -- Sert aussi a modifier des valeurs pour des fins de test
-            j_msg_send["vitesse_Jeu"] = this->m_Game_Speed;  //Valeur de vie a afficher - Pot Value instead as of now   
-            if(this->checkForShake())
-                this->m_Motor_Mode=3; //Mode 3 = bomba
-            j_msg_send["moteur_On"] = this->m_Motor_Mode;  
+            if (json::accept(raw_msg))
+            {
+                j_msg_rcv = json::parse(raw_msg);       // Transfert du message en json
+                this->m_joystick.X = j_msg_rcv["Joy_X"];
+                this->m_joystick.Y = j_msg_rcv["Joy_Y"];
+                this->m_accel.Z = j_msg_rcv["Acc_Z"];
+                this->m_Game_Speed = j_msg_rcv["pot_Value"];
+                this->getButtonValues(j_msg_rcv["btn_Value"], this->m_Btn_States);
+                this->decodeInputs();  //Decodes values from inputs -- Sert aussi a modifier des valeurs pour des fins de test
+                j_msg_send["vitesse_Jeu"] = this->m_Game_Speed;  //Valeur de vie a afficher - Pot Value instead as of now   
+                if (this->checkForShake())
+                    this->m_Motor_Mode = 3; //Mode 3 = bomba
+                j_msg_send["moteur_On"] = this->m_Motor_Mode;
+            }
+            
 
             //Debugging section -- Affiche les trames envoyées et recues en alternance a une vitesse plus lisible :)
             
             if(this->m_Motor_Mode!=0)
-                cout << j_msg_send <<endl;
+                cerr << j_msg_send <<endl;
             else if(past_Speed!=this->m_Game_Speed)
-                cout << j_msg_rcv <<endl;
+                cerr << j_msg_rcv <<endl;
             past_Speed=this->m_Game_Speed;
             this->m_Motor_Mode=0;
             //countSend+=10;
@@ -65,7 +69,10 @@ int Controller::begin()
             //cout << j_msg_send <<endl;
             //cout << j_msg_rcv <<endl;
         }
-        Sleep(20); // Fréquence de comm de 50 Hertz
+        updateData();
+        emit updatedValues(dataController);
+        Sleep(50); // Fréquence de comm de 20 Hertz
+        //Sleep(20); // Fréquence de comm de 50 Hertz
     }
     return 0;
 }
@@ -229,7 +236,8 @@ bool Controller::RcvFromSerial(string &msg) {
 
     msg.clear(); // clear string
     // Read serialport until '\n' character (Blocking)
-    while(msg.back()!='\n') {
+    /*while (msg.back() != '\n')
+    {
         if(msg.size()>MSG_MAX_SIZE) {
             return false;
         }
@@ -237,16 +245,20 @@ bool Controller::RcvFromSerial(string &msg) {
         buffer_size = this->readSerialPort(char_buffer, MSG_MAX_SIZE);
         str_buffer.assign(char_buffer, buffer_size);
         msg.append(str_buffer);
-    }
+    }*/
 
-    msg.pop_back(); //remove '/n' from string
+    buffer_size = this->readSerialPort(char_buffer, MSG_MAX_SIZE);
+    str_buffer.assign(char_buffer, buffer_size);
+    msg.append(str_buffer);
+
+    //msg.pop_back(); //remove '/n' from string
     return true;
 }
 
 
 //Constructeur de l'objet Controller.
 //Contient en fait le constructeur de l'objet SerialPort qui a été assimilé..
-Controller::Controller(const char *portName, int BAUD)
+Controller::Controller(const char *portName, int baud)
 {
     this->connected = false;
 
@@ -261,11 +273,11 @@ Controller::Controller(const char *portName, int BAUD)
     {
         if (GetLastError() == ERROR_FILE_NOT_FOUND)
         {
-            std::cerr << "ERROR: Handle was not attached.Reason : " << portName << " not available\n";
+            qDebug() << "ERROR: Handle was not attached.Reason : " << portName << " not available\n";
         }
         else
         {
-            std::cerr << "ERROR!!!\n";
+            qDebug() << "ERROR!!!\n";
         }
     }
     else
@@ -274,7 +286,7 @@ Controller::Controller(const char *portName, int BAUD)
 
         if (!GetCommState(this->handler, &dcbSerialParameters))
         {
-            std::cerr << "Failed to get current serial parameters\n";
+            qDebug() << "Failed to get current serial parameters\n";
         }
         else
         {
@@ -286,7 +298,7 @@ Controller::Controller(const char *portName, int BAUD)
 
             if (!SetCommState(handler, &dcbSerialParameters))
             {
-                std::cout << "ALERT: could not set serial port parameters\n";
+                qDebug() << "ALERT: could not set serial port parameters\n";
             }
             else
             {
@@ -367,4 +379,22 @@ bool Controller::isConnected()
 void Controller::closeSerial()
 {
     CloseHandle(this->handler);
+}
+
+void Controller::updateData()
+{
+    dataController.m_joystick = m_joystick;
+    dataController.m_accel = m_accel;
+    for (int i = 0; i < 5; i++)
+    {
+        dataController.m_Btn_States[i] = m_Btn_States[i];
+    }
+    dataController.m_Game_Speed = m_Game_Speed;
+    dataController.m_Motor_Mode = m_Motor_Mode;
+    dataController.isBombDropped = isBombDropped;
+    dataController.isStartPressed = isStartPressed;
+    dataController.isXPressed = isXPressed;
+    dataController.isYPressed = isYPressed;
+    dataController.isBPressed = isBPressed;
+    dataController.isAPressed = isAPressed;
 }

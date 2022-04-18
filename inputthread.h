@@ -30,10 +30,12 @@ public:
 public slots:
     void process();
     void updateGameSpeed() {};
+    void updatedValues(DataController);
 
 signals:
     void finished();
-    void movePlayer();
+    void movePlayer(DataController);
+    void controllerConnected();
     void error(QString err);
 
 private:

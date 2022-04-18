@@ -12,6 +12,7 @@
 
 #include <windows.h>
 #include <iostream>
+#include "defines.h"
 
 class SerialPort
 {
@@ -21,7 +22,7 @@ private:
     COMSTAT status;
     DWORD errors;
 public:
-    explicit SerialPort(const char *portName, int BAUD);
+    explicit SerialPort(const char *portName, int baud = BAUD);
     ~SerialPort();
 
     int readSerialPort(const char *buffer, unsigned int buf_size);

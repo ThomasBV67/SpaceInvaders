@@ -6,6 +6,9 @@
 #include <iostream>
 #include <string>
 #include "json.h"
+#include "defines.h"
+#include <QObject>
+#include <QDebug>
 
 using namespace std;
 using json = nlohmann::json;
@@ -19,20 +22,34 @@ using json = nlohmann::json;
 
 struct joystick_Axes 
 { 
-    int X = 0;
-    int Y = 0;
+    int X = 511;
+    int Y = 511;
 };
 struct ADXL 
 { 
     int Z = 0;
 };
 
-
-class Controller
+struct DataController
 {
+    joystick_Axes m_joystick;
+    ADXL m_accel;
+    int m_Btn_States[5] = { 0,0,0,0,0 };
+    int m_Game_Speed = 0;
+    int m_Motor_Mode = -1;
+    bool isBombDropped = false;
+    bool isStartPressed = false;
+    bool isXPressed = false;
+    bool isYPressed = false;
+    bool isBPressed = false;
+    bool isAPressed = false;
+};
 
+class Controller : public QObject
+{
+    Q_OBJECT
     public:
-        explicit Controller(const char *portName, int BAUD);
+        explicit Controller(const char *portName, int baud = BAUD);
         ~Controller();
         int begin();
         int readSerialPort(const char *buffer, unsigned int buf_size);
@@ -50,6 +67,7 @@ class Controller
         bool isYPressed = false;
         bool isBPressed = false;
         bool isAPressed = false;
+        DataController dataController;
 
     private :
         string btnNames[5] = {"X","Y","B","A","START"};
@@ -58,10 +76,14 @@ class Controller
         void getButtonValues(int btnRegister, int btn_States[]);
         bool checkForShake();
         void decodeInputs();
+        void updateData();
         HANDLE handler;
         bool connected;
         COMSTAT status;
         DWORD errors;
+    public slots:
+    signals:
+        void updatedValues(DataController);
 };
 
 

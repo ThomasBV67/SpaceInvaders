@@ -28,6 +28,7 @@ StackedW::StackedW()
 	// Fix the size of the window and show the mainMenu
 	setCurrentWidget(mainMenu);
 	setFixedSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+
 	show();
 }
 
