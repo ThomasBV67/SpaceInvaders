@@ -56,6 +56,19 @@ bool Player::getHit()
 	else
 		return false;
 }
+// true = dash a droite, false = dash a gauche
+void Player::dash(bool sens)
+{
+	QTime currenttime = QTime::currentTime();
+	int pastSpeed = speed;
+	if (sens)
+		speed = 50;
+	else
+		speed = -50;
+	customAdvance();
+	customAdvance();
+	speed = pastSpeed;
+}
 
 /// <summary>
 /// 
