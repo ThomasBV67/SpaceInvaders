@@ -11,6 +11,8 @@
 #include <QGraphicsScene>
 #include <QObject>
 #include <QGraphicsRectItem>
+#include <QTime>
+#include <QThread>
 
 class Player : public QGraphicsPixmapItem
 {
@@ -29,7 +31,7 @@ public:
 	void useShield();
 	bool getHit();
 	int hitPoints;
-
+	void dash(bool sens);
 private:
 	QGraphicsRectItem* gameRect;
 	QGraphicsScene* parent;

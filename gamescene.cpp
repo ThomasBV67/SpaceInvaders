@@ -207,11 +207,11 @@ void GameScene::keyPressEvent(QKeyEvent* keyEvent)
     }
     // debug
     else if (keyEvent->key() == Qt::Key_P) {
-        player1->useShield();
+        player1->dash(true);
     }
     //debug
     else if (keyEvent->key() == Qt::Key_O) {
-        player1->getHit();
+        player1->dash(false);
     }
     // Escape key pauses the game and opens the pause menu
     else if (keyEvent->key() == Qt::Key_Escape)
@@ -250,13 +250,13 @@ void GameScene::collision(Bullet* item)
             score->increase(100*dataController.m_Game_Speed);
 
             // changing the pointer to the new rightmost alien if it dies
-            if(dynamicClassEnemy->x() == rightMostAlien->x() && dynamicClassEnemy->y() == rightMostAlien->y())
+            if (dynamicClassEnemy->x() == rightMostAlien->x() && dynamicClassEnemy->y() == rightMostAlien->y())
             {
                 int maxX = 0;
                 Enemy* newRightMost;
                 for (int k = 0; k < enemyList.count(); k++)
                 {
-                    if (enemyList[k]->x()>maxX)
+                    if (enemyList[k]->x() > maxX)
                     {
                         maxX = enemyList[k]->x();
                         newRightMost = enemyList[k];
@@ -264,7 +264,7 @@ void GameScene::collision(Bullet* item)
                 }
                 rightMostAlien = newRightMost;
             }
-             
+
             // changing the pointer to the new leftmost alien if it dies
             else if (dynamicClassEnemy->x() == leftMostAlien->x() && dynamicClassEnemy->y() == leftMostAlien->y())
             {
@@ -290,7 +290,7 @@ void GameScene::collision(Bullet* item)
 
                 for (int k = 0; k < enemyList.count(); k++)
                 {
-                    if (enemyList[k]->x() == dynamicClassEnemy->x() && enemyList[k]->y()>maxY)
+                    if (enemyList[k]->x() == dynamicClassEnemy->x() && enemyList[k]->y() > maxY)
                     {
                         maxY = enemyList[k]->y();
                         newLowest = enemyList[k];

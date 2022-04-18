@@ -99,10 +99,10 @@ inline void GameScene::killItem<Bullet>(Bullet* item)
 template<>
 inline void GameScene::killItem<Enemy>(Enemy* item) 
 {
+    
     enemyList.removeAll(item);
     removeItem(item);
     delete item;
-    updateLeftRightAlien();
 }
 template<>
 inline void GameScene::killItem<Shield>(Shield* item)
