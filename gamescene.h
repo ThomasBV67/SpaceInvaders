@@ -9,6 +9,7 @@
 #include "controller.h"
 #include "score.h"
 #include "health.h"
+#include "special.h"
 
 #include <QgraphicsRectItem>
 #include <QGraphicsScene>

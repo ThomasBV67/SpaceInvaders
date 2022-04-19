@@ -4,6 +4,7 @@ Player::Player(QGraphicsScene* inparent)
 {
 	setPixmap(QPixmap(":/images/player.png"));
 	speed = 0;
+	bombs = 0;
 	shields = PLAYER_SHIELDAMOUNT;
 	hitPoints = PLAYER_HITPOINTS;
 	shieldProtected = false;

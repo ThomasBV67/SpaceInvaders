@@ -6,5 +6,6 @@
 		<file>images/backgroundMainMenu.png</file>
 		<file>images/shield.png</file>
 		<file>images/playershield.png</file>
+		<file>images/special.png</file>
     </qresource>
 </RCC>

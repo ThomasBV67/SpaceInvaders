@@ -33,6 +33,7 @@ public:
 	int hitPoints;
 	void dash(bool sens);
 	int shields;
+	int bombs;
 private:
 	QGraphicsRectItem* gameRect;
 	QGraphicsScene* parent;
