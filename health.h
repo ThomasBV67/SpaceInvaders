@@ -23,4 +23,13 @@ private:
     int level;
 };
 
+class ShieldLeft : public QGraphicsTextItem
+{
+public:
+    ShieldLeft(QGraphicsItem* parent = 0);
+    void change(int);
+private:
+    int shield;
+};
+
 #endif 

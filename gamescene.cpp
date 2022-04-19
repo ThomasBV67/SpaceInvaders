@@ -5,27 +5,31 @@ GameScene::GameScene(QObject* parent)
 {
     initLevels();
     score = new Score();
-    score->setPos(0, 300);
+    score->setPos(25, 250);
     addItem(score);
 
     hp = new Health();
-    hp->setPos(0, 450);
+    hp->setPos(25, 400);
     addItem(hp);
 
     currentLevel = new CurrentLevel();
-    currentLevel->setPos(0, 150);
+    currentLevel->setPos(25, 100);
     addItem(currentLevel);
+
+    shieldLeft = new ShieldLeft();
+    shieldLeft->setPos(25, 550);
+    addItem(shieldLeft);
     
-    gameOver = false;
+    
     setSceneRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
     player1 = new Player(this);
-    gameRect = new QGraphicsRectItem(X_LEFT_LIMIT, BORDER_WIDTH_TOP, WINDOW_WIDTH-X_LEFT_LIMIT-25, WINDOW_HEIGHT - 2 * BORDER_WIDTH_TOP);
+    gameRect = new QGraphicsRectItem(X_LEFT_LIMIT, BORDER_WIDTH_TOP, X_RIGHT_LIMIT-X_LEFT_LIMIT, WINDOW_HEIGHT - 2 * BORDER_WIDTH_TOP);
     player1->setGameRect(gameRect);
     gameRect->setZValue(10);
     gameRect->setPen(QPen(Qt::white,3));
     addItem(gameRect);
     addItem(player1);
-    setUpShields();
+    //setUpShields();
 
     // set up of gameoverzone
     GameOverZone = new QGraphicsRectItem(X_LEFT_LIMIT, WINDOW_HEIGHT - 200, WINDOW_WIDTH - X_LEFT_LIMIT, 200);
@@ -195,7 +199,7 @@ void GameScene::keyPressEvent(QKeyEvent* keyEvent)
 
     // Space shoots
     if (keyEvent->key() == Qt::Key_Space) {
-        makePlayerShot();
+        gameOver();
     }
     // Left arrow speeds up player towards the left
     else if (keyEvent->key() == Qt::Key_Left) {
@@ -247,44 +251,13 @@ void GameScene::collision(Bullet* item)
         case INVADER_TYPE:
             dynamicClassEnemy = dynamic_cast<Enemy*>(list[i]);
             killItem(item);
-            score->increase(100*dataController.m_Game_Speed);
-
-            // changing the pointer to the new rightmost alien if it dies
-            if (dynamicClassEnemy->x() == rightMostAlien->x() && dynamicClassEnemy->y() == rightMostAlien->y())
-            {
-                int maxX = 0;
-                Enemy* newRightMost;
-                for (int k = 0; k < enemyList.count(); k++)
-                {
-                    if (enemyList[k]->x() > maxX)
-                    {
-                        maxX = enemyList[k]->x();
-                        newRightMost = enemyList[k];
-                    }
-                }
-                rightMostAlien = newRightMost;
-            }
-
-            // changing the pointer to the new leftmost alien if it dies
-            else if (dynamicClassEnemy->x() == leftMostAlien->x() && dynamicClassEnemy->y() == leftMostAlien->y())
-            {
-                int minX = 10000;
-                Enemy* newleftMost;
-                for (int k = 0; k < enemyList.count(); k++)
-                {
-                    if (enemyList[k]->x() < minX)
-                    {
-                        minX = enemyList[k]->x();
-                        newleftMost = enemyList[k];
-                    }
-                }
-                leftMostAlien = newleftMost;
-            }
+            score->increase(dataController.m_Game_Speed);
+            enemyList.removeAll(dynamicClassEnemy);
 
             // update the lowest enemies list if one dies
             if (lowestEnemies.contains(dynamicClassEnemy))
             {
-                lowestEnemies.removeOne(dynamicClassEnemy);
+                lowestEnemies.removeAll(dynamicClassEnemy);
                 int maxY = 0;
                 Enemy* newLowest = nullptr;
 
@@ -301,7 +274,36 @@ void GameScene::collision(Bullet* item)
                     lowestEnemies.append(newLowest);
                 }
             }
-            enemyList.removeAll(dynamicClassEnemy);
+            // changing the pointer to the new rightmost alien if it dies
+            if (dynamicClassEnemy->x() == rightMostAlien->x() && dynamicClassEnemy->y() == rightMostAlien->y())
+            {
+                int maxX = 0;
+                Enemy* newRightMost;
+                for (int k = 0; k < enemyList.count(); k++)
+                {
+                    if (enemyList[k]->x() > maxX)
+                    {
+                        maxX = enemyList[k]->x();
+                        newRightMost = enemyList[k];
+                    }
+                }
+                rightMostAlien = newRightMost;
+            }
+            // changing the pointer to the new leftmost alien if it dies
+            else if (dynamicClassEnemy->x() == leftMostAlien->x() && dynamicClassEnemy->y() == leftMostAlien->y())
+            {
+                int minX = 10000;
+                Enemy* newleftMost;
+                for (int k = 0; k < enemyList.count(); k++)
+                {
+                    if (enemyList[k]->x() < minX)
+                    {
+                        minX = enemyList[k]->x();
+                        newleftMost = enemyList[k];
+                    }
+                }
+                leftMostAlien = newleftMost;
+            }
             killItem(dynamicClassEnemy);
             if (enemyList.count() == 0)
             {
@@ -311,7 +313,7 @@ void GameScene::collision(Bullet* item)
 
         case PLAYER_TYPE:
             killItem(item);
-            //player1->hit(); TO DO
+            playerHit();
             break;
 
         case SHIELD_TYPE:
@@ -384,18 +386,26 @@ void GameScene::eventTimePlayer(DataController newDataController)
         if (dataController.isBPressed)
         {
             player1->useShield();
+            shieldLeft->change(player1->shields);
         }
 
         // Dash command
         if (dataController.isAPressed)
         {
-
+            if (player1->speed > 0)
+            {
+                player1->dash(true);
+            }
+            else if (player1->speed < 0)
+            {
+                player1->dash(false);
+            }
         }
         
         // reload command
         if (dataController.isYPressed)
         {
-            emit shake();
+            
         }
         
         // Shake for bomb
@@ -420,8 +430,14 @@ void GameScene::eventTimePlayer(DataController newDataController)
 /// </summary>
 void GameScene::eventStart()
 {
-    // start game with 10x4 board of enemies
+    // start game with 10x4 board of enemie
+    hp->change(10);
+    player1->getHit();
+    setUpShields();
+    currentLevel->change(-1);
     levelUp();
+    hp->change(10);
+    score->reset();
     paused = false;
 }
 
@@ -465,7 +481,7 @@ void GameScene::setUpShields()
 {
     for (int i = 0; i < 4; i++) {
         //((WINDOW_WIDTH - X_LEFT_LIMIT) - 4 * SHIELD_WIDTH) / 5
-            new Shield(X_LEFT_LIMIT+ ((WINDOW_WIDTH - X_LEFT_LIMIT) - 4 * SHIELD_WIDTH) / 5 + i*((((WINDOW_WIDTH - X_LEFT_LIMIT) - 4 * SHIELD_WIDTH) / 5)+ SHIELD_WIDTH ), WINDOW_HEIGHT- 200,this);
+        shieldList.append(new Shield(X_LEFT_LIMIT+ ((WINDOW_WIDTH - X_LEFT_LIMIT) - 4 * SHIELD_WIDTH) / 5 + i*((((WINDOW_WIDTH - X_LEFT_LIMIT) - 4 * SHIELD_WIDTH) / 5)+ SHIELD_WIDTH ), WINDOW_HEIGHT- 200,this));
     }
 }
 
@@ -474,9 +490,8 @@ void GameScene::checkInvaderTouchDown()
     QList<QGraphicsItem*>list = collidingItems(GameOverZone, Qt::IntersectsItemShape);
     for (int item = 0; item < list.size(); item++) {
         if (list[item]->type() == INVADER_TYPE) {
-            gameOver = true;
             paused = true;
-            // gameOver Menu ... score systeme...
+            gameOver();
         }
     }
 }
@@ -566,14 +581,68 @@ void GameScene::initLevels()
 
 void GameScene::setLevel(int level)
 {
+    if (level >= levels.count())
+    {
+        level = levels.count() - 1;
+    }
     generateEnemies(levels[level].gridX, levels[level].gridY);
 }
 
 void GameScene::levelUp()
 {
-    int level = currentLevel->getLevel();
-    level++;
-    currentLevel->change(level);
-    setLevel(level);
+    int thisLevel = currentLevel->getLevel();
+    thisLevel++;
+    player1->shields = 3;
+    shieldLeft->change(player1->shields);
 
+    currentLevel->change(thisLevel);
+    setLevel(thisLevel);
+
+}
+void GameScene::playerHit()
+{
+    if (!player1->getHit())
+    {
+        gameOver();
+    }
+    hp->change(player1->hitPoints);
+    emit shake();
+}
+
+void GameScene::eventRestart()
+{
+    setUpShields();
+    currentLevel->change(-1);
+    levelUp();
+    hp->change(10);
+    score->reset();
+    paused = false;
+}
+
+void GameScene::gameOver()
+{
+    paused = true;
+
+    for (int i = enemyList.count()-1; i >= 0; i--)
+    {
+        killItem(enemyList[i]);
+    }
+    for (int i = enemyBulletsList.count() - 1; i >= 0; i--)
+    {
+        killItem(enemyBulletsList[i]);
+    }
+    for (int i = playerBulletsList.count() - 1; i >= 0; i--)
+    {
+        killItem(playerBulletsList[i]);
+    }
+    for (int i = shieldList.count() - 1; i >= 0; i--)
+    {
+        Shield* temp;
+        temp = shieldList[i];
+        shieldList.removeAll(temp);
+        removeItem(temp);
+        delete temp;
+    }  
+    lowestEnemies.clear();
+    emit gameover(score->getScore());
 }

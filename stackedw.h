@@ -7,6 +7,7 @@
 #include "enemy.h"
 #include "gamescene.h"
 #include "pausemenu.h"
+#include "gameovermenu.h"
 
 #include <QtWidgets>
 #include <QGraphicsView>
@@ -24,12 +25,15 @@ public:
 	MainMenu* mainMenu;
 	GameWindow* gameWindow;
 	PauseMenu* pauseMenu;
+	GameOverMenu* gameOverMenu;
 
 private:
 
 public slots:
 	void goToGame();
+	void goToMain();
 	void goToPause();
+	void goToGameOver(int);
 	void closeWindow();
 signals:
 

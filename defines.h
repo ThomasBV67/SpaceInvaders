@@ -38,7 +38,7 @@
 #define LEFT	1
 #define DOWN	2
 
-#define X_RIGHT_LIMIT	1024
+#define X_RIGHT_LIMIT	1000
 #define X_LEFT_LIMIT	200
 
 #define ENEMY_MOVE_INCREMENT	2

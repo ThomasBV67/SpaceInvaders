@@ -158,7 +158,7 @@ void Controller::decodeInputs()
             }
         }
     }
-     //Shake Test Values
+    /*//Shake Test Values
     if(this->isStartPressed && this->m_Game_Speed>9)
         this->m_Game_Speed = 11;   
     else if(this->isStartPressed && this->m_Game_Speed ==9)
@@ -172,7 +172,7 @@ void Controller::decodeInputs()
     else if(this->isStartPressed &&  this->m_Game_Speed<4 &&this->m_Game_Speed>=2)
         this->m_Motor_Mode=2;
     else if(this->isStartPressed &&  this->m_Game_Speed<2)
-        this->m_Motor_Mode=1;
+        this->m_Motor_Mode=1;*/
 }
 
 /*---------------------------Definition de fonctions ------------------------
@@ -389,5 +389,5 @@ void Controller::updateData()
 
 void Controller::shake()
 {
-    this->m_Motor_Mode = 3; //Mode 3 = bomba
+    this->m_Motor_Mode = 1; //Mode 1
 }

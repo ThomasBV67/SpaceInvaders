@@ -41,3 +41,20 @@ void CurrentLevel::change(int newLevel) {
 int CurrentLevel::getLevel() {
     return level;
 }
+
+
+
+ShieldLeft::ShieldLeft(QGraphicsItem* parent) : QGraphicsTextItem(parent) {
+    // initialize the hp to 10
+    shield = 3;
+
+    // draw the text
+    setPlainText(QString("Shield: \n") + QString::number(shield ));
+    setDefaultTextColor(Qt::white);
+    setFont(QFont("times", 32));
+}
+
+void ShieldLeft::change(int newLevel) {
+    shield = newLevel;
+    setPlainText(QString("Shield: \n") + QString::number(shield));
+}

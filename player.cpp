@@ -50,7 +50,10 @@ bool Player::getHit()
 		shieldProtected = false;
 		setPixmap(QPixmap(":/images/player.png"));
 	}
-	hitPoints--;
+	else
+	{
+		hitPoints--;
+	}
 	if (hitPoints > 0)
 		return true;
 	else

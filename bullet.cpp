@@ -1,6 +1,6 @@
 #include "bullet.h"
 
-Bullet::Bullet(bool inSens, int x, int y, QGraphicsScene*scene, QGraphicsItem* parent) {
+Bullet::Bullet(bool inSens, int x, int y, QGraphicsScene* scene, QGraphicsItem* parent) {
 	sens = inSens;
 	setPixmap(QPixmap(":/images/bullet.png"));
 	if (sens) {

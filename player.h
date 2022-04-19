@@ -32,11 +32,12 @@ public:
 	bool getHit();
 	int hitPoints;
 	void dash(bool sens);
+	int shields;
 private:
 	QGraphicsRectItem* gameRect;
 	QGraphicsScene* parent;
 	
-	int shields;
+	
 	bool shieldProtected;
 
 };

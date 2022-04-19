@@ -44,6 +44,7 @@ public:
     QList<Bullet*> playerBulletsList;
     QList<Bullet*> enemyBulletsList;
     QList<Enemy*> lowestEnemies;
+    QList<Shield*> shieldList;
     QList<Level> levels;
     Enemy* rightMostAlien;
     Enemy* leftMostAlien;
@@ -55,6 +56,7 @@ public:
     Score* score;
     Health* hp;
     CurrentLevel* currentLevel;
+    ShieldLeft* shieldLeft;
     
     
 
@@ -64,9 +66,12 @@ public slots:
     void eventStart();
     void eventResume();
     void eventPause();
+    void eventRestart();
     void controllerConnected();
+    void gameOver();
 signals:
     void pause();
+    void gameover(int);
     void updateGameSpeed(int);
     void shake();
 
@@ -79,7 +84,7 @@ private:
     void setLevel(int);
     void levelUp();
     void invaderAttack(int attackRate);
-    bool gameOver;
+    void playerHit();
     int level=0;
 };
 
@@ -99,7 +104,6 @@ inline void GameScene::killItem<Bullet>(Bullet* item)
 template<>
 inline void GameScene::killItem<Enemy>(Enemy* item) 
 {
-    
     enemyList.removeAll(item);
     removeItem(item);
     delete item;
@@ -108,6 +112,7 @@ template<>
 inline void GameScene::killItem<Shield>(Shield* item)
 {
     if (!item->getHit()) {
+        shieldList.removeAll(item);
         removeItem(item);
         delete item;
     }

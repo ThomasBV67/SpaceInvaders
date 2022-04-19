@@ -18,8 +18,8 @@ class MainMenu : public QWidget
 	Q_OBJECT
 public:
 	MainMenu(QWidget* parent = NULL);
-	void startGame(); // TO DO
-	void quitGame(); // TO DO
+	void startGame() {}; // TO DO
+	void quitGame() {}; // TO DO
 	void selectButton(int btn);
 	QVBoxLayout* mainLayout;
 	QPushButton* goBtn;

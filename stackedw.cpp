@@ -6,11 +6,13 @@ StackedW::StackedW()
 	mainMenu = new MainMenu();
 	pauseMenu = new PauseMenu();
 	gameWindow = new GameWindow();
+	gameOverMenu = new GameOverMenu();
 
 	// adding all pages to the stacked widget
 	addWidget(mainMenu);
 	addWidget(gameWindow);
 	addWidget(pauseMenu); 
+	addWidget(gameOverMenu);
 
 	// setup the button fonctions for the main menu
 	QObject::connect(mainMenu->goBtn, SIGNAL(clicked()), gameWindow->gameScene, SLOT(eventStart()));
@@ -19,11 +21,19 @@ StackedW::StackedW()
 
 	// setup the escape button to pause the game
 	QObject::connect(gameWindow->gameScene, SIGNAL(pause()), SLOT(goToPause()));
+	QObject::connect(gameWindow->gameScene, SIGNAL(gameover(int)), SLOT(goToGameOver(int)));
 
+	// disconnect everything connected to myReadTimer's timeout
+	QObject::disconnect(pauseMenu->quitBtn, SIGNAL(Clicked()), 0, 0);
 	// setup the button fonctions for the pause menu
 	QObject::connect(pauseMenu->resumeBtn, SIGNAL(clicked()), gameWindow->gameScene, SLOT(eventResume()));
 	QObject::connect(pauseMenu->resumeBtn, SIGNAL(clicked()), SLOT(goToGame()));
-	QObject::connect(pauseMenu->quitBtn, SIGNAL(clicked()), SLOT(closeWindow()));
+	QObject::connect(pauseMenu->quitBtn, SIGNAL(clicked()), SLOT(goToMain()));
+
+	// setup the button fonctions for the gameover menu
+	QObject::connect(gameOverMenu->restartBtn, SIGNAL(clicked()), gameWindow->gameScene, SLOT(eventRestart()));
+	QObject::connect(gameOverMenu->restartBtn, SIGNAL(clicked()), SLOT(goToGame()));
+	QObject::connect(gameOverMenu->quitBtn, SIGNAL(clicked()), SLOT(goToMain()));
 	
 	// Fix the size of the window and show the mainMenu
 	setCurrentWidget(mainMenu);
@@ -34,9 +44,7 @@ StackedW::StackedW()
 
 StackedW::~StackedW()
 {
-	delete mainMenu;
-	delete gameWindow;
-	delete pauseMenu;
+	
 }
 
 /// <summary>
@@ -53,6 +61,23 @@ void StackedW::goToGame()
 void StackedW::goToPause()
 {
 	setCurrentWidget(pauseMenu);
+}
+
+/// <summary>
+/// This slot changes the showed widget to be the main menu
+/// </summary>
+void StackedW::goToMain()
+{
+	setCurrentWidget(mainMenu);
+}
+
+/// <summary>
+/// This slot changes the showed widget to be the gameover menu
+/// </summary>
+void StackedW::goToGameOver(int score)
+{
+	gameOverMenu->scoreLabel->setText("Score : " + QString::number(score));
+	setCurrentWidget(gameOverMenu);
 }
 
 /// <summary>
