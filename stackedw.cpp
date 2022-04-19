@@ -23,8 +23,6 @@ StackedW::StackedW()
 	QObject::connect(gameWindow->gameScene, SIGNAL(pause()), SLOT(goToPause()));
 	QObject::connect(gameWindow->gameScene, SIGNAL(gameover(int)), SLOT(goToGameOver(int)));
 
-	// disconnect everything connected to myReadTimer's timeout
-	QObject::disconnect(pauseMenu->quitBtn, SIGNAL(Clicked()), 0, 0);
 	// setup the button fonctions for the pause menu
 	QObject::connect(pauseMenu->resumeBtn, SIGNAL(clicked()), gameWindow->gameScene, SLOT(eventResume()));
 	QObject::connect(pauseMenu->resumeBtn, SIGNAL(clicked()), SLOT(goToGame()));

@@ -4,6 +4,11 @@ GameScene::GameScene(QObject* parent)
     : QGraphicsScene(parent)
 {
     initLevels();
+
+    currentLevel = new CurrentLevel();
+    currentLevel->setPos(25, 100);
+    addItem(currentLevel);
+
     score = new Score();
     score->setPos(25, 250);
     addItem(score);
@@ -11,11 +16,7 @@ GameScene::GameScene(QObject* parent)
     hp = new Health();
     hp->setPos(25, 400);
     addItem(hp);
-
-    currentLevel = new CurrentLevel();
-    currentLevel->setPos(25, 100);
-    addItem(currentLevel);
-
+    
     shieldLeft = new ShieldLeft();
     shieldLeft->setPos(25, 550);
     addItem(shieldLeft);
@@ -37,9 +38,20 @@ GameScene::GameScene(QObject* parent)
     addItem(GameOverZone);
 
     // sets background color to black
+    /*
     QPalette palette;
     palette.setColor(QPalette::Window, Qt::black);
     this->setPalette(palette);
+    */
+    // set the background image
+    /*
+    setAutoFillBackground(true);
+    QPixmap backgrnd(":/images/backgroundMainMenu.png");
+    backgrnd = backgrnd.scaled(this->size(), Qt::IgnoreAspectRatio);
+    QPalette palette;
+    palette.setBrush(backgroundRole(), QBrush(backgrnd));
+    this->setPalette(palette);
+    */
 }
 /// <summary>
 /// This function generates enemies in a grid patern of size cols x rows.
@@ -65,7 +77,7 @@ void GameScene::generateEnemies(int cols, int rows)
 
             // vertical separation is a fixed value
             divY = VERTICAL_SPREAD;
-            tempY = BORDER_WIDTH_TOP + i * divY;
+            tempY = BORDER_WIDTH_TOP*2 + i * divY;
 
             // generate enemies and add to list and scene
             tempEnemy = new Enemy(tempX,tempY,j,i);
@@ -162,6 +174,16 @@ void GameScene::eventTimeToMove()
         return;
     }
 
+    if (rand() % 350 + timeSpecial >= 1000)
+    {
+        Special* special1 = new Special(950, BORDER_WIDTH_TOP+10, this);
+        timeSpecial = 0;
+    }
+    else
+    {
+        timeSpecial++;
+    }
+
     moveAliens();
     advance();
     collisionAll();
@@ -215,7 +237,7 @@ void GameScene::keyPressEvent(QKeyEvent* keyEvent)
     }
     //test spawn the special type
     else if (keyEvent->key() == Qt::Key_O) {
-        Special* special1 = new Special(950, 100, this);
+        Special* special1 = new Special(950, BORDER_WIDTH_TOP + 10, this);
     }
     // Escape key pauses the game and opens the pause menu
     else if (keyEvent->key() == Qt::Key_Escape)
@@ -324,6 +346,7 @@ void GameScene::collision(Bullet* item)
         case SPECIAL_TYPE:
             killItem(item);
             player1->bombs++;
+            score->increase(10*dataController.m_Game_Speed);
             removeItem(list[i]);
             break;
         default:

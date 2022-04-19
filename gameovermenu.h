@@ -20,7 +20,6 @@ public:
 	QVBoxLayout* mainLayout;
 	QPushButton* restartBtn;
 	QPushButton* quitBtn;
-	QLabel* gameoverLabel;
 	QLabel* scoreLabel;
 	int score = 0;
 

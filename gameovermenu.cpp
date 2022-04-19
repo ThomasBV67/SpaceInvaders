@@ -18,21 +18,14 @@ GameOverMenu::GameOverMenu(QWidget* parent)
 	// init of the quit button
 	quitBtn = new QPushButton();
 	quitBtn->setFixedSize(300, 100);
-	quitBtn->setText("Quit");
+	quitBtn->setText("Main Menu");
 	quitBtn->setFont(font);
-
-	// init of the label
-	font.setPixelSize(80);
-	gameoverLabel = new QLabel();
-	gameoverLabel->setText("GAME OVER");
-	gameoverLabel->setFont(font);
 	
 	// init of the label
 	font.setPixelSize(80);
 	scoreLabel = new QLabel();
 	scoreLabel->setText(QString::number(score));
 	scoreLabel->setFont(font);
-	
 
 	// create a spacer objet to space the layout
 	QLabel* spacer = new QLabel();
@@ -53,12 +46,11 @@ GameOverMenu::GameOverMenu(QWidget* parent)
 
 	// Set the label's text as white
 	pal.setColor(foregroundRole(), QColor(Qt::white));
-	gameoverLabel->setPalette(pal);
 	scoreLabel->setPalette(pal);
 
 	// setup the layout
 	mainLayout = new QVBoxLayout();
-	mainLayout->addWidget(gameoverLabel);
+	mainLayout->addWidget(spacer);
 	mainLayout->addWidget(spacer);
 	mainLayout->addWidget(scoreLabel);
 	mainLayout->addWidget(spacer);
@@ -67,14 +59,17 @@ GameOverMenu::GameOverMenu(QWidget* parent)
 	mainLayout->addWidget(quitBtn);
 	mainLayout->setAlignment(Qt::AlignCenter);
 
-	// set background black
-	setAutoFillBackground(true);
-	QPalette palette;
-	palette.setBrush(backgroundRole(), QBrush(Qt::black));
-	this->setPalette(palette);
 
 	// apply the layout
 	setLayout(mainLayout);
+
+	// set the background image
+	setAutoFillBackground(true);
+	QPixmap backgrnd(":/images/gameOverScreen.png");
+	backgrnd = backgrnd.scaled(this->size(), Qt::IgnoreAspectRatio);
+	QPalette palette;
+	palette.setBrush(backgroundRole(), QBrush(backgrnd));
+	this->setPalette(palette);
 }
 
 GameOverMenu::~GameOverMenu()

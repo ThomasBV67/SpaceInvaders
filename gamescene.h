@@ -87,6 +87,7 @@ private:
     void invaderAttack(int attackRate);
     void playerHit();
     int level=0;
+    int timeSpecial = 0;
 };
 
 template<>

@@ -7,5 +7,7 @@
 		<file>images/shield.png</file>
 		<file>images/playershield.png</file>
 		<file>images/special.png</file>
+		<file>images/gameOverScreen.png</file>
+		<file>images/gameBackground.png</file>
     </qresource>
 </RCC>

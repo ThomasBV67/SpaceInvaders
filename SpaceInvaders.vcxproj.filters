@@ -37,10 +37,19 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="SerialPort.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="bullet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="controller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="enemy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gameovermenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="gamescene.cpp">
@@ -50,6 +59,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="gamewindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="health.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="inputthread.cpp">
@@ -67,20 +79,38 @@
     <ClCompile Include="player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="score.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="shield.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="special.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="stackedw.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SerialPort.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="bullet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <CustomBuild Include="controller.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
     <ClInclude Include="defines.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="enemy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <CustomBuild Include="gameovermenu.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
     <CustomBuild Include="gamescene.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
@@ -90,9 +120,15 @@
     <ClInclude Include="gamewindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="health.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <CustomBuild Include="inputthread.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
+    <ClInclude Include="json.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <CustomBuild Include="mainmenu.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
@@ -102,11 +138,32 @@
     <ClInclude Include="player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="score.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="shield.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="special.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <CustomBuild Include="stackedw.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="debug\moc_controller.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="release\moc_controller.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="debug\moc_gameovermenu.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="release\moc_gameovermenu.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
     <ClCompile Include="debug\moc_gamescene.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
@@ -163,14 +220,29 @@
     <None Include="images\bullet.png">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="images\gameBackground.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\gameOverScreen.png">
+      <Filter>Resource Files</Filter>
+    </None>
     <None Include="images\invader.png">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="images\player.png">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="images\playershield.png">
+      <Filter>Resource Files</Filter>
+    </None>
     <CustomBuild Include="res.qrc">
       <Filter>Resource Files</Filter>
     </CustomBuild>
+    <None Include="images\shield.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\special.png">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

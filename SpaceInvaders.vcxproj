@@ -137,22 +137,50 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="SerialPort.cpp" />
     <ClCompile Include="bullet.cpp" />
+    <ClCompile Include="controller.cpp" />
     <ClCompile Include="enemy.cpp" />
+    <ClCompile Include="gameovermenu.cpp" />
     <ClCompile Include="gamescene.cpp" />
     <ClCompile Include="gamespeedthread.cpp" />
     <ClCompile Include="gamewindow.cpp" />
+    <ClCompile Include="health.cpp" />
     <ClCompile Include="inputthread.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainmenu.cpp" />
     <ClCompile Include="pausemenu.cpp" />
     <ClCompile Include="player.cpp" />
+    <ClCompile Include="score.cpp" />
+    <ClCompile Include="shield.cpp" />
+    <ClCompile Include="special.cpp" />
     <ClCompile Include="stackedw.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SerialPort.h" />
     <ClInclude Include="bullet.h" />
+    <CustomBuild Include="controller.h">
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">controller.h;release\moc_predefs.h;C:\Qt\6.2.3\msvc2019_64\bin\moc.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">C:\Qt\6.2.3\msvc2019_64\bin\moc.exe  -DUNICODE -D_UNICODE -DWIN32 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -DWIN64 -DNDEBUG -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB --compiler-flavor=msvc --include C:/Users/theda/Documents/GitHub/SpaceInvaders/release/moc_predefs.h -IC:/Qt/6.2.3/msvc2019_64/mkspecs/win32-msvc -IC:/Users/theda/Documents/GitHub/SpaceInvaders -IC:/Users/theda/Documents/GitHub/SpaceInvaders -IC:/Qt/6.2.3/msvc2019_64/include -IC:/Qt/6.2.3/msvc2019_64/include/QtWidgets -IC:/Qt/6.2.3/msvc2019_64/include/QtGui -IC:/Qt/6.2.3/msvc2019_64/include/QtCore controller.h -o release\moc_controller.cpp</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">MOC controller.h</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">release\moc_controller.cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">controller.h;debug\moc_predefs.h;C:\Qt\6.2.3\msvc2019_64\bin\moc.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">C:\Qt\6.2.3\msvc2019_64\bin\moc.exe  -DUNICODE -D_UNICODE -DWIN32 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -DWIN64 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB --compiler-flavor=msvc --include C:/Users/theda/Documents/GitHub/SpaceInvaders/debug/moc_predefs.h -IC:/Qt/6.2.3/msvc2019_64/mkspecs/win32-msvc -IC:/Users/theda/Documents/GitHub/SpaceInvaders -IC:/Users/theda/Documents/GitHub/SpaceInvaders -IC:/Qt/6.2.3/msvc2019_64/include -IC:/Qt/6.2.3/msvc2019_64/include/QtWidgets -IC:/Qt/6.2.3/msvc2019_64/include/QtGui -IC:/Qt/6.2.3/msvc2019_64/include/QtCore controller.h -o debug\moc_controller.cpp</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">MOC controller.h</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">debug\moc_controller.cpp;%(Outputs)</Outputs>
+    </CustomBuild>
     <ClInclude Include="defines.h" />
     <ClInclude Include="enemy.h" />
+    <CustomBuild Include="gameovermenu.h">
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">gameovermenu.h;release\moc_predefs.h;C:\Qt\6.2.3\msvc2019_64\bin\moc.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">C:\Qt\6.2.3\msvc2019_64\bin\moc.exe  -DUNICODE -D_UNICODE -DWIN32 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -DWIN64 -DNDEBUG -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB --compiler-flavor=msvc --include C:/Users/theda/Documents/GitHub/SpaceInvaders/release/moc_predefs.h -IC:/Qt/6.2.3/msvc2019_64/mkspecs/win32-msvc -IC:/Users/theda/Documents/GitHub/SpaceInvaders -IC:/Users/theda/Documents/GitHub/SpaceInvaders -IC:/Qt/6.2.3/msvc2019_64/include -IC:/Qt/6.2.3/msvc2019_64/include/QtWidgets -IC:/Qt/6.2.3/msvc2019_64/include/QtGui -IC:/Qt/6.2.3/msvc2019_64/include/QtCore gameovermenu.h -o release\moc_gameovermenu.cpp</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">MOC gameovermenu.h</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">release\moc_gameovermenu.cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">gameovermenu.h;debug\moc_predefs.h;C:\Qt\6.2.3\msvc2019_64\bin\moc.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">C:\Qt\6.2.3\msvc2019_64\bin\moc.exe  -DUNICODE -D_UNICODE -DWIN32 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -DWIN64 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB --compiler-flavor=msvc --include C:/Users/theda/Documents/GitHub/SpaceInvaders/debug/moc_predefs.h -IC:/Qt/6.2.3/msvc2019_64/mkspecs/win32-msvc -IC:/Users/theda/Documents/GitHub/SpaceInvaders -IC:/Users/theda/Documents/GitHub/SpaceInvaders -IC:/Qt/6.2.3/msvc2019_64/include -IC:/Qt/6.2.3/msvc2019_64/include/QtWidgets -IC:/Qt/6.2.3/msvc2019_64/include/QtGui -IC:/Qt/6.2.3/msvc2019_64/include/QtCore gameovermenu.h -o debug\moc_gameovermenu.cpp</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">MOC gameovermenu.h</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">debug\moc_gameovermenu.cpp;%(Outputs)</Outputs>
+    </CustomBuild>
     <CustomBuild Include="gamescene.h">
       <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">gamescene.h;release\moc_predefs.h;C:\Qt\6.2.3\msvc2019_64\bin\moc.exe;%(AdditionalInputs)</AdditionalInputs>
       <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">C:\Qt\6.2.3\msvc2019_64\bin\moc.exe  -DUNICODE -D_UNICODE -DWIN32 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -DWIN64 -DNDEBUG -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB --compiler-flavor=msvc --include C:/Users/theda/Documents/GitHub/SpaceInvaders/release/moc_predefs.h -IC:/Qt/6.2.3/msvc2019_64/mkspecs/win32-msvc -IC:/Users/theda/Documents/GitHub/SpaceInvaders -IC:/Users/theda/Documents/GitHub/SpaceInvaders -IC:/Qt/6.2.3/msvc2019_64/include -IC:/Qt/6.2.3/msvc2019_64/include/QtWidgets -IC:/Qt/6.2.3/msvc2019_64/include/QtGui -IC:/Qt/6.2.3/msvc2019_64/include/QtCore gamescene.h -o release\moc_gamescene.cpp</Command>
@@ -174,6 +202,7 @@
       <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">debug\moc_gamespeedthread.cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <ClInclude Include="gamewindow.h" />
+    <ClInclude Include="health.h" />
     <CustomBuild Include="inputthread.h">
       <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">inputthread.h;release\moc_predefs.h;C:\Qt\6.2.3\msvc2019_64\bin\moc.exe;%(AdditionalInputs)</AdditionalInputs>
       <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">C:\Qt\6.2.3\msvc2019_64\bin\moc.exe  -DUNICODE -D_UNICODE -DWIN32 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -DWIN64 -DNDEBUG -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB --compiler-flavor=msvc --include C:/Users/theda/Documents/GitHub/SpaceInvaders/release/moc_predefs.h -IC:/Qt/6.2.3/msvc2019_64/mkspecs/win32-msvc -IC:/Users/theda/Documents/GitHub/SpaceInvaders -IC:/Users/theda/Documents/GitHub/SpaceInvaders -IC:/Qt/6.2.3/msvc2019_64/include -IC:/Qt/6.2.3/msvc2019_64/include/QtWidgets -IC:/Qt/6.2.3/msvc2019_64/include/QtGui -IC:/Qt/6.2.3/msvc2019_64/include/QtCore inputthread.h -o release\moc_inputthread.cpp</Command>
@@ -184,6 +213,7 @@
       <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">MOC inputthread.h</Message>
       <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">debug\moc_inputthread.cpp;%(Outputs)</Outputs>
     </CustomBuild>
+    <ClInclude Include="json.h" />
     <CustomBuild Include="mainmenu.h">
       <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">mainmenu.h;release\moc_predefs.h;C:\Qt\6.2.3\msvc2019_64\bin\moc.exe;%(AdditionalInputs)</AdditionalInputs>
       <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">C:\Qt\6.2.3\msvc2019_64\bin\moc.exe  -DUNICODE -D_UNICODE -DWIN32 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -DWIN64 -DNDEBUG -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB --compiler-flavor=msvc --include C:/Users/theda/Documents/GitHub/SpaceInvaders/release/moc_predefs.h -IC:/Qt/6.2.3/msvc2019_64/mkspecs/win32-msvc -IC:/Users/theda/Documents/GitHub/SpaceInvaders -IC:/Users/theda/Documents/GitHub/SpaceInvaders -IC:/Qt/6.2.3/msvc2019_64/include -IC:/Qt/6.2.3/msvc2019_64/include/QtWidgets -IC:/Qt/6.2.3/msvc2019_64/include/QtGui -IC:/Qt/6.2.3/msvc2019_64/include/QtCore mainmenu.h -o release\moc_mainmenu.cpp</Command>
@@ -205,6 +235,9 @@
       <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">debug\moc_pausemenu.cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <ClInclude Include="player.h" />
+    <ClInclude Include="score.h" />
+    <ClInclude Include="shield.h" />
+    <ClInclude Include="special.h" />
     <CustomBuild Include="stackedw.h">
       <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">stackedw.h;release\moc_predefs.h;C:\Qt\6.2.3\msvc2019_64\bin\moc.exe;%(AdditionalInputs)</AdditionalInputs>
       <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">C:\Qt\6.2.3\msvc2019_64\bin\moc.exe  -DUNICODE -D_UNICODE -DWIN32 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -DWIN64 -DNDEBUG -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB --compiler-flavor=msvc --include C:/Users/theda/Documents/GitHub/SpaceInvaders/release/moc_predefs.h -IC:/Qt/6.2.3/msvc2019_64/mkspecs/win32-msvc -IC:/Users/theda/Documents/GitHub/SpaceInvaders -IC:/Users/theda/Documents/GitHub/SpaceInvaders -IC:/Qt/6.2.3/msvc2019_64/include -IC:/Qt/6.2.3/msvc2019_64/include/QtWidgets -IC:/Qt/6.2.3/msvc2019_64/include/QtGui -IC:/Qt/6.2.3/msvc2019_64/include/QtCore stackedw.h -o release\moc_stackedw.cpp</Command>
@@ -217,6 +250,18 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="debug\moc_controller.cpp">
+      <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="release\moc_controller.cpp">
+      <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="debug\moc_gameovermenu.cpp">
+      <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="release\moc_gameovermenu.cpp">
+      <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="debug\moc_gamescene.cpp">
       <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">true</ExcludedFromBuild>
     </ClCompile>
@@ -279,19 +324,24 @@
   <ItemGroup>
     <None Include="images\backgroundMainMenu.png" />
     <None Include="images\bullet.png" />
+    <None Include="images\gameBackground.png" />
+    <None Include="images\gameOverScreen.png" />
     <None Include="images\invader.png" />
     <None Include="images\player.png" />
+    <None Include="images\playershield.png" />
     <CustomBuild Include="res.qrc">
       <FileType>Document</FileType>
-      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">res.qrc;C:\Qt\6.2.3\msvc2019_64\bin\rcc.exe;images\player.png;images\bullet.png;images\backgroundMainMenu.png;images\invader.png;%(AdditionalInputs)</AdditionalInputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">res.qrc;C:\Qt\6.2.3\msvc2019_64\bin\rcc.exe;images\player.png;images\gameOverScreen.png;images\shield.png;images\bullet.png;images\gameBackground.png;images\playershield.png;images\backgroundMainMenu.png;images\invader.png;images\special.png;%(AdditionalInputs)</AdditionalInputs>
       <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">C:\Qt\6.2.3\msvc2019_64\bin\rcc.exe -name res res.qrc -o release\qrc_res.cpp</Command>
       <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">RCC res.qrc</Message>
       <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">release\qrc_res.cpp;%(Outputs)</Outputs>
-      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">res.qrc;C:\Qt\6.2.3\msvc2019_64\bin\rcc.exe;images\player.png;images\bullet.png;images\backgroundMainMenu.png;images\invader.png;%(AdditionalInputs)</AdditionalInputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">res.qrc;C:\Qt\6.2.3\msvc2019_64\bin\rcc.exe;images\player.png;images\gameOverScreen.png;images\shield.png;images\bullet.png;images\gameBackground.png;images\playershield.png;images\backgroundMainMenu.png;images\invader.png;images\special.png;%(AdditionalInputs)</AdditionalInputs>
       <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">C:\Qt\6.2.3\msvc2019_64\bin\rcc.exe -name res res.qrc -o debug\qrc_res.cpp</Command>
       <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">RCC res.qrc</Message>
       <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">debug\qrc_res.cpp;%(Outputs)</Outputs>
     </CustomBuild>
+    <None Include="images\shield.png" />
+    <None Include="images\special.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

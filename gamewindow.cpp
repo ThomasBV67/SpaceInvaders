@@ -44,13 +44,22 @@ GameWindow::GameWindow(QWidget* parent)
 	connect(inputThread, SIGNAL(controllerConnected()), gameScene, SLOT(controllerConnected()));
 
 	// starting threads
-	threadInputs->start();
+	//threadInputs->start();
 	threadLogic->start();
 
 	// show scene with black background
+	setAutoFillBackground(true);
+	QPixmap backgrnd(":/images/gameBackground.png");
+	backgrnd = backgrnd.scaled(this->size(), Qt::IgnoreAspectRatio);
+	QPalette palette;
+	palette.setBrush(backgroundRole(), QBrush(backgrnd));
+	this->setPalette(palette);
+
 	setScene(gameScene);
-	this->ensureVisible(gameScene->gameRect);
+	/*
 	setBackgroundBrush(Qt::black);
+	*/
+	this->ensureVisible(gameScene->gameRect);
 	setCacheMode(QGraphicsView::CacheBackground);
 	setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
 	show();

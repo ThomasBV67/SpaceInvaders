@@ -8,7 +8,7 @@ Special::Special(qreal inX, qreal inY, QGraphicsScene* parent) {
 
 void Special::advance(int step)
 {
-	moveBy(-5, 0);
+	moveBy(-3, 0);
 	QList<QGraphicsItem*>list = collidingItems(Qt::ContainsItemShape);
 	if (list.isEmpty()) {
 		scene()->removeItem(this);
