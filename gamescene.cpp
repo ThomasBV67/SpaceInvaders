@@ -275,7 +275,7 @@ void GameScene::collision(Bullet* item)
 
                 for (int k = 0; k < enemyList.count(); k++)
                 {
-                    if (enemyList[k]->x() == dynamicClassEnemy->x() && enemyList[k]->y() > maxY)
+                    if (enemyList[k]->gridPosition.x == dynamicClassEnemy->gridPosition.x && enemyList[k]->y() > maxY)
                     {
                         maxY = enemyList[k]->y();
                         newLowest = enemyList[k];

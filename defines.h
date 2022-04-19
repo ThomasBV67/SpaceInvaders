@@ -29,6 +29,10 @@
 #define SHIELD_BASEHP 5
 #define SHIELD_TYPE 65540
 
+#define SPECIAL_WIDTH 48
+#define SPECIAL_HEIGHT 32
+#define SPECIAL_TYPE 65541
+
 #define GAMERECT_TYPE 3
 
 #define START_BTN	0
