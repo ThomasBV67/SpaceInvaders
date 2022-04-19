@@ -196,9 +196,9 @@ void GameScene::keyPressEvent(QKeyEvent* keyEvent)
     else if (keyEvent->key() == Qt::Key_P) {
         player1->dash(true);
     }
-    //debug
+    //test spawn the special type
     else if (keyEvent->key() == Qt::Key_O) {
-        player1->dash(false);
+        Special* special1 = new Special(950, 100, this);
     }
     // Escape key pauses the game and opens the pause menu
     else if (keyEvent->key() == Qt::Key_Escape)
@@ -299,7 +299,11 @@ void GameScene::collision(Bullet* item)
             killItem(item);
             killItem(dynamcClassShield);
             break;
-
+        case SPECIAL_TYPE:
+            killItem(item);
+            player1->bombs++;
+            removeItem(list[i]);
+            break;
         default:
             break;
         }

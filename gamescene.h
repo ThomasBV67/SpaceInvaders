@@ -6,6 +6,7 @@
 #include "bullet.h"
 #include "defines.h"
 #include "shield.h"
+#include "special.h"
 
 #include <QgraphicsRectItem>
 #include <QGraphicsScene>

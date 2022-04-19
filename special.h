@@ -14,10 +14,10 @@ public:
 	int type() const override {
 		return Type;
 	}
-	Enemy(QGraphicsScene* parent = nullptr);
+	Special(qreal inX, qreal inY, QGraphicsScene* parent = nullptr);
 
-private:
-
+protected:
+	void advance(int step) override;
 };
 
 
